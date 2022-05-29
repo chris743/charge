@@ -1,0 +1,22 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<h1>Box Types</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Box Style</td>
+            <td>Description</td>
+            <td>Misc. Charges</td>
+        </tr>
+    </th>
+    {% for boxType in boxTypes %}
+    <tr>
+        <td> {{ boxType.boxType }}</td>
+        <td> {{ boxType.description }}</td>
+        <td> {{ boxType.miscCharges }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

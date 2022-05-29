@@ -1,0 +1,26 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<h1>Packaging Costs</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Box Style</td>
+            <td>Film Cost/Meter</td>
+            <td>Net Cost/Meter</td>
+            <td>Vexar Clip Cost</td>
+            <td>Misc. Cost</td>
+        </tr>
+    </th>
+    {% for pkgcost in pkgcosts %}
+    <tr>
+        <td> {{ pkgcost.boxType }}</td>
+        <td> {{ pkgcost.filmCostPerMeter }}</td>
+        <td> {{ pkgcost.netCostPerMeter }}</td>
+        <td> {{ pkgcost.vexarClipCost }}</td>
+        <td> {{ pkgcost.miscCost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

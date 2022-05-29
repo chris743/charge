@@ -1,0 +1,33 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<h1>Bag Costs</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Box Type</td>
+            <td>Description</td>
+            <td>Bag Weight</td>
+            <td>Cost Per Bag</td>
+            <td>Bag Length</td>
+            <td>Waste Percentage</td>
+            <td>Labor Cost</td>
+            <td>Total Cost</td>
+        </tr>
+    </th>
+    {% for bagCost in bagCosts %}
+    <tr>
+        <td> {{ bagCost.boxType }}</td>
+        <td> {{ bagCost.description }}</td>
+        <td> {{ bagCost.bagWeight }}</td>
+        <td> {{ bagCost.costPerBag }}</td>
+        <td> {{ bagCost.bagLength }}</td>
+        <td> {{ bagCost.wastePercentage }}</td>
+        <td> {{ bagCost.laborCost }}</td>
+        <td> {{ bagCost.totalCost }}</td>
+        <td> {{ bagCost.costFinal }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
