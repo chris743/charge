@@ -1,0 +1,37 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<h1>Packaging Costs</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Description</td>
+            <td>Avg. Carton Price</td>
+            <td>Std. Carton Cost</td>
+            <td>Net Wt. Chile</td>
+            <td>Net Wt. Domestic</td>
+            <td>Packing Charge</td>
+            <td>Price Per Pound</td>
+            <td>Pallets</td>
+            <td>Profit Per Bag</td>
+            <td>Promo</td>
+        </tr>
+    </th>
+    {% for commodity in commodities %}
+    <tr>
+        <td> {{ commodity.description }}</td>
+        <td> {{ commodity.avgCtnPrice }}</td>
+        <td> {{ commodity.stdCtnCost}}</td>
+        <td> {{ commodity.netWeightChile}}</td>
+        <td> {{ commodity.netWeightDomestic}}</td>
+        <td> {{ commodity.packingCharge}}</td>
+        <td> {{ commodity.pricePerPound}}</td>
+        <td> {{ commodity.pallets}}</td>
+        <td> {{ commodity.profitPerBag}}</td>
+        <td> {{ commodity.promo}}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}

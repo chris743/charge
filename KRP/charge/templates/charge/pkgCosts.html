@@ -1,5 +1,5 @@
 {% extends 'main.html'%}
-
+{% load widget_tweaks %}
 {% block content %}
 <h1>Packaging Costs</h1>
 
@@ -11,6 +11,7 @@
             <td>Net Cost/Meter</td>
             <td>Vexar Clip Cost</td>
             <td>Misc. Cost</td>
+            <td></td>
         </tr>
     </th>
     {% for pkgcost in pkgcosts %}
@@ -22,5 +23,19 @@
         <td> {{ pkgcost.miscCost }}</td>
     </tr>
     {% endfor %}
+
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- <td>{{ form.boxType }}</td> -->
+            <td>{% render_field form.boxType class="form-control" name="boxType" %}</td>
+            <td>{{form.filmCostPerMeter }}</td>
+            <td>{{ form.netCostPerMeter }}</td>
+            <td>{{ form.vexarClipCost }}</td>
+            <td>{{ form.miscCost }}</td>
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
 </table>
+    
 {% endblock %}

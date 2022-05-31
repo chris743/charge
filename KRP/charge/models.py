@@ -37,3 +37,20 @@ class PackagingCosts(models.Model):
     miscCost = models.FloatField(null=False, default=0)
 
 
+class Commodities (models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    description = models.CharField(max_length=30, blank=False)
+    avgCtnPrice = models.FloatField(null=False, default=0)
+    stdCtnCost = models.FloatField(null=False, default=0)
+    netWeightChile = models.FloatField(null=False, default=0)
+    netWeightDomestic = models.FloatField(null=False, default=0)
+    packingCharge = models.FloatField(null=False, default=0)
+    pallets = models.FloatField(null=False, default=0)
+    profitPerBag = models.FloatField(null=False, default=0)
+    promo = models.FloatField(null=False, default=0)
+
+    @property
+    def pricePerPound(self):
+        pricePerPound = (self.avgCtnPrice - self.packingCharge) / self.netWeightDomestic
+        return pricePerPound
+
