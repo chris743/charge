@@ -1,5 +1,5 @@
 {% extends 'main.html'%}
-
+{% load widget_tweaks %}
 {% block content %}
 <h1>Bag Costs</h1>
 
@@ -27,7 +27,27 @@
         <td> {{ bagCost.laborCost }}</td>
         <td> {{ bagCost.totalCost }}</td>
         <td> {{ bagCost.costFinal }}</td>
+        <td><a href="{% url 'updateBagCostEntry' bagCost.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        <td><a href="{% url 'deleteEntry' bagCost.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>
     {% endfor %}
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- <td>{{ form.boxType }}</td> -->
+            <td>{% render_field form.boxType class="form-control" name="boxType" %}</td>
+            <td>{{form.description }}</td>
+            <td>{{ form.bagWeight }}</td>
+            <td>{{ form.costPerBag }}</td>
+            <td>{{ form.bagLength }}</td>
+            <td>{{ form.wastePercentage }}</td>
+            <td>{{ form.laborCost }}</td>
+            <td>{{ form.totalCost }}</td>
+
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
 </table>
 {% endblock %}
+
+{% include 'bagCostsForm.html' %}

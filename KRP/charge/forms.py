@@ -16,3 +16,21 @@ class PackagingForm(ModelForm):
             'miscCost': forms.TextInput(attrs={'class': 'form-control'}),
         }
          
+
+class BagCostForm(ModelForm):
+    class Meta:
+        model = BagCost
+        fields = ['boxType', 'description', 'bagWeight', 'costPerBag', 'bagLength', 'wastePercentage',
+        'laborCost', 'totalCost']
+
+        widgets = {
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'bagWeight': forms.TextInput(attrs={'class': 'form-control'}),
+            'costPerBag': forms.TextInput(attrs={'class': 'form-control'}),
+            'bagLength': forms.TextInput(attrs={'class': 'form-control'}),
+            'wastePercentage': forms.TextInput(attrs={'class': 'form-control'}),
+            'laborCost': forms.TextInput(attrs={'class': 'form-control'}),
+            'totalCost': forms.TextInput(attrs={'class': 'form-control'}),
+
+        }
+

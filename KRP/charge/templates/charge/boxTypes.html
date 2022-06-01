@@ -9,6 +9,7 @@
             <td>Box Style</td>
             <td>Description</td>
             <td>Misc. Charges</td>
+            <td></td>
         </tr>
     </th>
     {% for boxType in boxTypes %}
@@ -16,6 +17,9 @@
         <td> {{ boxType.boxType }}</td>
         <td> {{ boxType.description }}</td>
         <td> {{ boxType.miscCharges }}</td>
+        <td><a href="{% url 'updateBagCostEntry' boxType.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        <td><a href="{% url 'deleteEntry' boxType.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+
     </tr>
     {% endfor %}
 </table>

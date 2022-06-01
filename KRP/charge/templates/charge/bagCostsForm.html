@@ -1,0 +1,14 @@
+{% load widget_tweaks %}
+<form action="" method="POST">
+
+    {% csrf_token %}
+    <td>{% render_field updateForm.boxType class="form-control" name="boxType" %}</td>
+    <td>{{ updateForm.description }}</td>
+    <td>{{ updateForm.bagWeight }}</td>
+    <td>{{ updateForm.costPerBag }}</td>
+    <td>{{ updateForm.bagLength }}</td>
+    <td>{{ updateForm.wastePercentage }}</td>
+    <td>{{ updateForm.laborCost }}</td>
+    <td>{{ updateForm.totalCost }}</td>
+    <td><button class="btn btn-success">Save</button></td>
+</form>
