@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import pyodbc
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -82,8 +83,18 @@ WSGI_APPLICATION = 'KRP.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mssql',
+        'NAME': 'chargedb',
+        'USER': 'chrism-admin',
+        'PASSWORD': '[1Qa-2Ws]',
+        'HOST': 'krp-charge.database.windows.net',
+        'PORT': '1433',
+        'OPTIONS':{
+            'DRIVER': 'ODBC Driver 18 for SQL Server',
+            'Trusted_Connection': 'yes',
+
+        }
+        
     }
 }
 
