@@ -1,0 +1,30 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<h1>Bag Type</h1>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Box Difference</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+   
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td>{{form.name }}</td>
+            <td>{{ form.boxDiff }}</td>
+            <td>{{ form.description }}</td>
+            <td><button class="btn btn-success">Apply</button></td>
+        </form> 
+    </tr>
+</table>
+</div>
+{% endblock %}
+
+{% include 'bagCostsForm.html' %}

@@ -1,0 +1,37 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1>Box Difference</h1>
+
+<div class="table-responsive">
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Box Difference</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    {% for boxDiff in boxDiffs %}
+    <tr>
+        <td> {{ boxDiff.name }}</td>
+        <td> {{ boxDiff.boxDiff }}</td>
+        <td> {{ boxDiff.description }}</td>
+        <td><a href="{% url 'update-boxDiff' boxDiff.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        <td><a href="{% url 'delete-boxDiff' boxDiff.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td>{{ form.name }}</td>
+            <td>{{ form.boxDiff }}</td>
+            <td>{{ form.description }}</td>
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
+</table>
+</div>
+    
+{% endblock %}

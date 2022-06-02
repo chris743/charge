@@ -25,4 +25,8 @@ urlpatterns = [
     path('styles/', views.styles, name="styles"),
     path('updateStlye/<pk>', views.updateStyle, name="update-style"),
     path('deleteStyle/<pk>', views.deleteStyle, name="delete-style"),
+
+    path('boxDiff/', views.boxDiff, name="boxDiff"),
+    path('update-boxDiff/<pk>', views.update_boxDiff, name="update-boxDiff"),
+    path('delete-boxDiff/<pk>', views.delete_boxDiff, name="delete-boxDiff"),
 ]

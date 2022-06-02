@@ -61,6 +61,7 @@ class Styles(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
     commodity = models.ForeignKey(Commodities, on_delete=models.CASCADE, default=1)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
+    referring_bagCost = models.ForeignKey(BagCost, on_delete=models.CASCADE, default=1, db_constraint=False)
     twb_flag = models.BooleanField(null=True)
     count = models.IntegerField(null=False, default=0)
     bagSize = models.IntegerField(null=False, default=0)
@@ -92,7 +93,7 @@ class Styles(models.Model):
         if (self.weight > 0):
             value = self.bagType.miscCharges * (self.weight / self.commodity.netWeightDomestic)
         else:
-            value = self.count *(BagCost.costFinal + self.commodity.profitPerBag)
+            value = self.count *(self.referring_bagCost.costFinal + self.commodity.profitPerBag)
 
         nickeled = value * 20
         rounded = round(nickeled, 0)
@@ -115,7 +116,7 @@ class Styles(models.Model):
             result = self.commodity.netWeightDomestic
 
         else:
-            result = (BagCost.bagWeight * self.count) / self.commodity.netWeightDomestic
+            result = (self.referring_bagCost.bagWeight * self.count) / self.commodity.netWeightDomestic
         
         return result
 
@@ -125,6 +126,12 @@ class Styles(models.Model):
             temp = self.commodity.netWeightChile
             result = (self.weight / temp)
         else:
-            result = ((BagCost.bagWeight * self.count) / self.commodity.netWeightChile)
+            result = ((self.referring_bagCost.bagWeight * self.count) / self.commodity.netWeightChile)
         
         return round(result,2)
+
+class BoxDifference(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    name = models.CharField(null=False, max_length=25)
+    boxDiff = models.FloatField(null=False, default=0)
+    description = models.CharField(max_length=30)

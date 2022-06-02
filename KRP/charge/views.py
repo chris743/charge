@@ -1,6 +1,7 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import BagType, BagCost, PackagingCosts, Commodities, Styles
-from .forms import PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm
+from .models import BagType, BagCost, BoxDifference, PackagingCosts, Commodities, Styles
+from .forms import PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm
 # Create your views here.
 def home(request):
     return render(request, 'charge/home.html')
@@ -147,6 +148,7 @@ def styles(request):
         if form.is_valid():
             form.save()
             form = StylesForm()
+            HttpResponseRedirect('charge/styles.html')
 
     ctx = {'styles': stylesQuery, 'form': form}
     return render(request, 'charge/styles.html', ctx)
@@ -168,3 +170,36 @@ def deleteStyle(request,pk):
     entry = Styles.objects.get(id=pk)
     entry.delete()
     return redirect('styles')
+
+#-------------Box Difference Functions-----------------
+
+def boxDiff(request):
+    boxDiffQuery = BoxDifference.objects.all()
+    form = BoxDifferenceForm()
+
+    if request.method == 'POST':
+        form = BoxDifferenceForm(request.POST)
+        form.save()
+        form = BoxDifferenceForm()
+
+    ctx = {'boxDiffs': boxDiffQuery, 'form': form}
+    return render(request, 'charge/boxDiff.html', ctx)
+
+
+def update_boxDiff(request, pk):
+    entry = BoxDifference.objects.get(id=pk)
+    form = BoxDifferenceForm(instance=entry)
+
+    if request.method == 'POST':
+        form = BoxDifferenceForm(request.POST, instance=entry)
+        if form.is_valid:
+            form.save()
+            return redirect('boxDiff')
+
+    ctx = {'form': form}
+    return render(request, 'charge/boxDiffForm.html', ctx)
+
+def delete_boxDiff(request,pk):
+    entry = BoxDifference.objects.get(id=pk)
+    entry.delete()
+    return redirect('boxDiff')

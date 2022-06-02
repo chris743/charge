@@ -2,7 +2,7 @@ from dataclasses import fields
 from tkinter.tix import Form
 from django.forms import ModelForm
 from django import forms
-from .models import Commodities, PackagingCosts, BagCost, BagType, Styles
+from .models import Commodities, PackagingCosts, BagCost, BagType, Styles, BoxDifference
 
 class BagTypeForm(ModelForm):
     class Meta:
@@ -75,4 +75,15 @@ class CommodityForm(ModelForm):
             'pallets': forms.TextInput(attrs={'class': 'form-control'}),
             'profitPerBag': forms.TextInput(attrs={'class': 'form-control'}),
             'promo': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class BoxDifferenceForm(ModelForm):
+    class Meta:
+        model = BoxDifference
+        fields=['name', 'boxDiff', 'description']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'boxDiff': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
         }
