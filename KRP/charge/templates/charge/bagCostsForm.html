@@ -1,14 +1,41 @@
+{% extends 'main.html'%}
 {% load widget_tweaks %}
-<form action="" method="POST">
+{% block content %}
 
-    {% csrf_token %}
-    <td>{% render_field updateForm.boxType class="form-control" name="boxType" %}</td>
-    <td>{{ updateForm.description }}</td>
-    <td>{{ updateForm.bagWeight }}</td>
-    <td>{{ updateForm.costPerBag }}</td>
-    <td>{{ updateForm.bagLength }}</td>
-    <td>{{ updateForm.wastePercentage }}</td>
-    <td>{{ updateForm.laborCost }}</td>
-    <td>{{ updateForm.totalCost }}</td>
-    <td><button class="btn btn-success">Save</button></td>
-</form>
+
+<h1>Bag Costs</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Bag Type</td>
+            <td>Description</td>
+            <td>Bag Weight</td>
+            <td>Cost Per Bag</td>
+            <td>Bag Length</td>
+            <td>Waste Percentage</td>
+            <td>Labor Cost</td>
+            <td>Total Cost</td>
+        </tr>
+    </th>
+   
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- <td>{{ form.boxType }}</td> -->
+            <td>{% render_field form.bagType class="form-control" name="boxType" %}</td>
+            <td>{{form.description }}</td>
+            <td>{{ form.bagWeight }}</td>
+            <td>{{ form.costPerBag }}</td>
+            <td>{{ form.bagLength }}</td>
+            <td>{{ form.wastePercentage }}</td>
+            <td>{{ form.laborCost }}</td>
+            <td>{{ form.totalCost }}</td>
+
+            <td><button class="btn btn-success">Apply</button></td>
+        </form> 
+    </tr>
+</table>
+{% endblock %}
+
+{% include 'bagCostsForm.html' %}

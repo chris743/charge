@@ -1,0 +1,73 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1>Styles</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Commodity</td>
+            <td>Box Type</td>
+            <td>TWB_Flag</td>
+            <td>Count</td>
+            <td>Bag Size</td>
+            <td>Weight</td>
+            <td>Domestic Conversion</td>
+            <td>Chile Conversion</td>
+            <td>Pallets Adjustment</td>
+            <td>Promo Adjustment</td>
+            <td>Packing Adjustment</td>
+            <td>Fruit Loss Adjustment</td>
+            <td>Total Adjustment</td>
+            <td>Flag</td>
+            <td>Count Size</td>
+            <td>Domestic Sales Cost</td>
+        </tr>
+    </th>
+    {% for style in styles %}
+    <tr>
+        <td> {{ style.commodity }}</td>
+        <td> {{ style.boxType }}</td>
+        <td> {{style.twb_flag }}</td>
+        <td> {{ style.count }} </td>
+        <td> {{ style.bagSize }} </td>
+        <td> {{ style.weight }} </td>
+        <td> {{ style.conversionDomestic }}</td>
+        <td> {{style.conversionChile }} </td>
+        <td> {{style.palletsAdjustment }}</td>
+        <td> {{style.promoAdjustment }} </td>
+        <td> {{ style.packingAdjustment }}</td>
+        <td> {{style.fruitLossAdjustment }} </td>
+        <td> {{style.totalAdjustment }}</td>
+        <td> {{ style.flag }} </td>
+        <td>{{style.countSize}}</td>
+        <td> {{style.domesticSalesCost }}</td>
+        <td>{{chileanSalesCost}}</td>
+    </tr>
+    {% endfor %}
+
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- <td>{{ form.boxType }}</td> -->
+            <td>{% render_field form.commodity class="form-control" name="commodity" %}</td>
+            <td>{% render_field form.boxType class="form-control" name="boxType" %}</td>
+            <td>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</td>
+            <td>{{ form.count }}</td>
+            <td>{{ form.bagSize }}</td>
+            <td>{{ form.weight }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ form.flag }}</td>
+            <td>{{ form.countSize }}</td>
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
+</table>
+    
+{% endblock %}

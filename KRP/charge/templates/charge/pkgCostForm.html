@@ -14,19 +14,6 @@
             <td></td>
         </tr>
     </th>
-    {% for pkgcost in pkgcosts %}
-    <tr>
-        <td> {{ pkgcost.boxType }}</td>
-        <td> {{ pkgcost.filmCostPerMeter }}</td>
-        <td> {{ pkgcost.netCostPerMeter }}</td>
-        <td> {{ pkgcost.vexarClipCost }}</td>
-        <td> {{ pkgcost.miscCost }}</td>
-        <td><a href="{% url 'update-pkg' pkgcost.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
-        <td><a href="{% url 'delete-pkg' pkgcost.id %}" class="btn btn-danger btn-sm">Delete</a></td>
-    
-    </tr>
-    {% endfor %}
-
     <tr>
         <form action="" method="POST">
             {% csrf_token %}
@@ -36,7 +23,7 @@
             <td>{{ form.netCostPerMeter }}</td>
             <td>{{ form.vexarClipCost }}</td>
             <td>{{ form.miscCost }}</td>
-            <td><button class="btn btn-success">+Add</button></td>
+            <td><button class="btn btn-success">Apply</button></td>
         </form> 
     </tr>
 </table>

@@ -6,7 +6,7 @@
 <table class="table table-striped">
     <th>
         <tr>
-            <td>Box Type</td>
+            <td>Bag Type</td>
             <td>Description</td>
             <td>Bag Weight</td>
             <td>Cost Per Bag</td>
@@ -18,7 +18,7 @@
     </th>
     {% for bagCost in bagCosts %}
     <tr>
-        <td> {{ bagCost.boxType }}</td>
+        <td> {{ bagCost.bagType }}</td>
         <td> {{ bagCost.description }}</td>
         <td> {{ bagCost.bagWeight }}</td>
         <td> {{ bagCost.costPerBag }}</td>
@@ -28,14 +28,14 @@
         <td> {{ bagCost.totalCost }}</td>
         <td> {{ bagCost.costFinal }}</td>
         <td><a href="{% url 'updateBagCostEntry' bagCost.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
-        <td><a href="{% url 'deleteEntry' bagCost.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+        <td><a href="{% url 'delete-bag-cost' bagCost.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>
     {% endfor %}
     <tr>
         <form action="" method="POST">
             {% csrf_token %}
             <!-- <td>{{ form.boxType }}</td> -->
-            <td>{% render_field form.boxType class="form-control" name="boxType" %}</td>
+            <td>{% render_field form.bagType class="form-control" name="bagType" %}</td>
             <td>{{form.description }}</td>
             <td>{{ form.bagWeight }}</td>
             <td>{{ form.costPerBag }}</td>

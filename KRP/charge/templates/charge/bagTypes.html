@@ -1,0 +1,26 @@
+{% extends 'main.html'%}
+
+{% block content %}
+<h1>Bag Types</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Bag Style</td>
+            <td>Description</td>
+            <td>Misc. Charges</td>
+            <td></td>
+        </tr>
+    </th>
+    {% for bagType in bagTypes %}
+    <tr>
+        <td> {{ bagType.bagType }}</td>
+        <td> {{ bagType.description }}</td>
+        <td> {{ bagType.miscCharges }}</td>
+        <td><a href="{% url 'updateBagType' bagType.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        <td><a href="{% url 'deleteEntry' bagType.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

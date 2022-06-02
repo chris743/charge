@@ -1,0 +1,29 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+
+
+<h1>Bag Costs</h1>
+
+<table class="table table-striped">
+    <th>
+        <tr>
+            <td>Bag Style</td>
+            <td>Description</td>
+            <td>Misc Charges</td>
+        </tr>
+    </th>
+   
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td>{{form.bagType }}</td>
+            <td>{{ form.description }}</td>
+            <td>{{ form.miscCharges }}</td>
+            <td><button class="btn btn-success">Apply</button></td>
+        </form> 
+    </tr>
+</table>
+{% endblock %}
+
+{% include 'bagCostsForm.html' %}
