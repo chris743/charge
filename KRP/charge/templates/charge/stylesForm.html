@@ -1,0 +1,52 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1>Styles</h1>
+
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Commodity</th>
+            <th>Bag Type</th>
+            <th>TWB_Flag</th>
+            <th>Count</th>
+            <th>Bag Size</th>
+            <th>Weight</th>
+            <th>Domestic Conversion</th>
+            <th>Chile Conversion</th>
+            <th>Pallets Adjustment</th>
+            <th>Promo Adjustment</th>
+            <th>Packing Adjustment</th>
+            <th>Fruit Loss Adjustment</th>
+            <th>Total Adjustment</th>
+            <th>Flag</th>
+            <th>Count Size</th>
+            <th>Domestic Sales Cost</th>
+        </tr>
+    </thead>
+    </th>
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- <td>{{ form.boxType }}</td> -->
+            <td>{% render_field form.commodity class="form-control" name="commodity" %}</td>
+            <td>{% render_field form.bagType class="form-control" name="boxType" %}</td>
+            <td>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</td>
+            <td>{{ form.count }}</td>
+            <td>{{ form.bagSize }}</td>
+            <td>{{ form.weight }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ form.flag }}</td>
+            <td>{{ form.countSize }}</td>
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
+</table>
+    
+{% endblock %}

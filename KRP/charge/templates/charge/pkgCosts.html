@@ -2,21 +2,21 @@
 {% load widget_tweaks %}
 {% block content %}
 <h1>Packaging Costs</h1>
-
-<table class="table table-striped">
-    <th>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+    <thead>
         <tr>
-            <td>Box Style</td>
-            <td>Film Cost/Meter</td>
-            <td>Net Cost/Meter</td>
-            <td>Vexar Clip Cost</td>
-            <td>Misc. Cost</td>
-            <td></td>
+            <th>Bag Style</th>
+            <th>Film Cost/Meter</th>
+            <th>Net Cost/Meter</th>
+            <th>Vexar Clip Cost</th>
+            <th>Misc. Cost</th>
+            <th></th>
         </tr>
-    </th>
+    </thead>
     {% for pkgcost in pkgcosts %}
     <tr>
-        <td> {{ pkgcost.boxType }}</td>
+        <td> {{ pkgcost.bagType }}</td>
         <td> {{ pkgcost.filmCostPerMeter }}</td>
         <td> {{ pkgcost.netCostPerMeter }}</td>
         <td> {{ pkgcost.vexarClipCost }}</td>
@@ -31,7 +31,7 @@
         <form action="" method="POST">
             {% csrf_token %}
             <!-- <td>{{ form.boxType }}</td> -->
-            <td>{% render_field form.boxType class="form-control" name="boxType" %}</td>
+            <td>{% render_field form.bagType class="form-control" name="boxType" %}</td>
             <td>{{form.filmCostPerMeter }}</td>
             <td>{{ form.netCostPerMeter }}</td>
             <td>{{ form.vexarClipCost }}</td>
@@ -40,5 +40,6 @@
         </form> 
     </tr>
 </table>
+</div>  
     
 {% endblock %}

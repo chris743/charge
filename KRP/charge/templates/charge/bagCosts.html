@@ -2,20 +2,20 @@
 {% load widget_tweaks %}
 {% block content %}
 <h1>Bag Costs</h1>
-
-<table class="table table-striped">
-    <th>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+    <thead>
         <tr>
-            <td>Bag Type</td>
-            <td>Description</td>
-            <td>Bag Weight</td>
-            <td>Cost Per Bag</td>
-            <td>Bag Length</td>
-            <td>Waste Percentage</td>
-            <td>Labor Cost</td>
-            <td>Total Cost</td>
+            <th>Bag Type</th>
+            <th>Description</th>
+            <th>Bag Weight</th>
+            <th>Cost Per Bag</th>
+            <th>Bag Length</th>
+            <th>Waste Percentage</th>
+            <th>Labor Cost</th>
+            <th>Total Cost</th>
         </tr>
-    </th>
+    </thead>
     {% for bagCost in bagCosts %}
     <tr>
         <td> {{ bagCost.bagType }}</td>
@@ -48,6 +48,7 @@
         </form> 
     </tr>
 </table>
+</div>
 {% endblock %}
 
 {% include 'bagCostsForm.html' %}

@@ -1,15 +1,29 @@
 from django.shortcuts import redirect, render
 from .models import BagType, BagCost, PackagingCosts, Commodities, Styles
-from .forms import PackagingForm, BagCostForm,StylesForm, BagTypeForm
+from .forms import PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm
 # Create your views here.
 def home(request):
     return render(request, 'charge/home.html')
 
+#-------------BAG TYPE FUNCTIONS---------------
 def bagType(request):
+    form = BagTypeForm()
     bagQuery = BagType.objects.all()
 
-    ctx = {'bagTypes': bagQuery}
+    if request.method == 'POST':
+        form = BagTypeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            form = BagTypeForm()
+
+            
+    ctx = {'bagTypes': bagQuery, 'form': form}
     return render(request, 'charge/bagTypes.html', ctx)
+
+def deleteBagType(request, pk):
+    entry = BagType.objects.get(id=pk)
+    entry.delete()
+    return redirect('BagTypes')
 
 def updateBagType(request, pk):
     entry = BagType.objects.get(id=pk)
@@ -19,11 +33,12 @@ def updateBagType(request, pk):
         form = BagTypeForm(request.POST, instance=entry)
         if form.is_valid():
             form.save()
-            return redirect('BagCosts')
+            return redirect('BagTypes')
 
     ctx = {'form': form}
     return render(request, 'charge/bagTypeForm.html', ctx)
 
+#------------BAG COSTING FUNCTIONS---------------
 def bagCosts(request):
     costQuery = BagCost.objects.all()
 
@@ -39,11 +54,25 @@ def bagCosts(request):
     ctx = {'bagCosts': costQuery, 'form': form}
     return render(request, 'charge/bagCosts.html', ctx)
 
-def deleteBagType(request, pk):
-    entry = BagCost.objects.get(id=pk)
-    entry.delete()
-    return redirect('BagCosts')
+def deleteBagCost(request, entry_id):
+        entry = BagCost.objects.get(id=entry_id)
+        entry.delete()
+        return redirect('BagCosts')
 
+def updateBagCostEntry(request, pk):
+    entry = BagCost.objects.get(id=pk)
+    form = BagCostForm(instance=entry)
+
+    if request.method == 'POST':
+        form = BagCostForm(request.POST, instance=entry)
+        if form.is_valid():
+            form.save()
+            return redirect('BagCosts')
+
+    ctx = {'form': form}
+    return render(request, 'charge/bagCostsForm.html', ctx)
+
+#--------------PACKAGING FUNCTIONS-------------
 def pkgCosts(request):
     pkgQuery = PackagingCosts.objects.all()
     form = PackagingForm()
@@ -77,30 +106,38 @@ def updatePkg(request, pk):
     ctx = {'form': form}
     return render(request, 'charge/pkgCostForm.html', ctx)
 
+#---------------Commodities Functions--------------
 def commodities(request):
     commoditiesQuery = Commodities.objects.all()
-
-    ctx = {'commodities': commoditiesQuery}
-    return render(request, 'charge/commodities.html', ctx)
-
-def deleteEntry(request, entry_id):
-        entry = BagCost.objects.get(id=entry_id)
-        entry.delete()
-        return redirect('BagCosts')
-
-def updateBagCostEntry(request, pk):
-    entry = BagCost.objects.get(id=pk)
-    form = BagCostForm(instance=entry)
+    form = CommodityForm()
 
     if request.method == 'POST':
-        form = BagCostForm(request.POST, instance=entry)
+        form=CommodityForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('BagCosts')
+            form = CommodityForm()
+
+    ctx = {'commodities': commoditiesQuery, 'form': form}
+    return render(request, 'charge/commodities.html', ctx)
+
+def updateCommodity(request, pk):
+    entry = Commodities.objects.get(id=pk)
+    form = CommodityForm(instance=entry)
+
+    if request.method == 'POST':
+        form = CommodityForm(request.POST, instance=entry)
+        if form.is_valid:
+            form.save()
+            return redirect('commodities')
 
     ctx = {'form': form}
-    return render(request, 'charge/bagCostsForm.html', ctx)
+    return render(request, 'charge/commoditiesForm.html', ctx)
 
+def deleteCommodity(request,pk):
+    entry = Commodities.objects.get(id=pk)
+    entry.delete()
+    return redirect('commodities')
+#--------------Styles Functions--------------------
 def styles(request):
     stylesQuery = Styles.objects.all()
     form = StylesForm()
@@ -113,3 +150,21 @@ def styles(request):
 
     ctx = {'styles': stylesQuery, 'form': form}
     return render(request, 'charge/styles.html', ctx)
+
+def updateStyle(request, pk):
+    entry = Styles.objects.get(id=pk)
+    form = StylesForm(instance=entry)
+
+    if request.method == 'POST':
+        form = StylesForm(request.POST, instance=entry)
+        if form.is_valid:
+            form.save()
+            return redirect('styles')
+
+    ctx = {'form': form}
+    return render(request, 'charge/stylesForm.html', ctx)
+
+def deleteStyle(request,pk):
+    entry = Styles.objects.get(id=pk)
+    entry.delete()
+    return redirect('styles')

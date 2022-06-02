@@ -3,31 +3,32 @@
 {% block content %}
 <h1>Styles</h1>
 
-<table class="table table-striped">
-    <th>
+<div class="table-responsive">
+<table class="table table-sm table-striped">
+    <thead>
         <tr>
-            <td>Commodity</td>
-            <td>Box Type</td>
-            <td>TWB_Flag</td>
-            <td>Count</td>
-            <td>Bag Size</td>
-            <td>Weight</td>
-            <td>Domestic Conversion</td>
-            <td>Chile Conversion</td>
-            <td>Pallets Adjustment</td>
-            <td>Promo Adjustment</td>
-            <td>Packing Adjustment</td>
-            <td>Fruit Loss Adjustment</td>
-            <td>Total Adjustment</td>
-            <td>Flag</td>
-            <td>Count Size</td>
-            <td>Domestic Sales Cost</td>
+            <th>Commodity</th>
+            <th>Bag Type</th>
+            <th>TWB_Flag</th>
+            <th>Count</th>
+            <th>Bag Size</th>
+            <th>Weight</th>
+            <th>Domestic Conversion</th>
+            <th>Chile Conversion</th>
+            <th>Pallets Adjustment</th>
+            <th>Promo Adjustment</th>
+            <th>Packing Adjustment</th>
+            <th>Fruit Loss Adjustment</th>
+            <th>Total Adjustment</th>
+            <th>Flag</th>
+            <th>Count Size</th>
+            <th>Domestic Sales Cost</th>
         </tr>
-    </th>
+    </thead>
     {% for style in styles %}
     <tr>
         <td> {{ style.commodity }}</td>
-        <td> {{ style.boxType }}</td>
+        <td> {{ style.bagType }}</td>
         <td> {{style.twb_flag }}</td>
         <td> {{ style.count }} </td>
         <td> {{ style.bagSize }} </td>
@@ -43,6 +44,8 @@
         <td>{{style.countSize}}</td>
         <td> {{style.domesticSalesCost }}</td>
         <td>{{chileanSalesCost}}</td>
+        <td><a href="{% url 'update-style' style.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        <td><a href="{% url 'delete-style' style.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>
     {% endfor %}
 
@@ -51,7 +54,7 @@
             {% csrf_token %}
             <!-- <td>{{ form.boxType }}</td> -->
             <td>{% render_field form.commodity class="form-control" name="commodity" %}</td>
-            <td>{% render_field form.boxType class="form-control" name="boxType" %}</td>
+            <td>{% render_field form.bagType class="form-control" name="boxType" %}</td>
             <td>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</td>
             <td>{{ form.count }}</td>
             <td>{{ form.bagSize }}</td>
@@ -69,5 +72,6 @@
         </form> 
     </tr>
 </table>
+</div>
     
 {% endblock %}

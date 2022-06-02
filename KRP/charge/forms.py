@@ -2,7 +2,7 @@ from dataclasses import fields
 from tkinter.tix import Form
 from django.forms import ModelForm
 from django import forms
-from .models import PackagingCosts, BagCost, BagType, Styles
+from .models import Commodities, PackagingCosts, BagCost, BagType, Styles
 
 class BagTypeForm(ModelForm):
     class Meta:
@@ -24,8 +24,7 @@ class PackagingForm(ModelForm):
             'netCostPerMeter': forms.TextInput(attrs={'class': 'form-control'}),
             'vexarClipCost': forms.TextInput(attrs={'class': 'form-control'}),
             'miscCost': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-         
+        }         
 
 class BagCostForm(ModelForm):
     class Meta:
@@ -55,4 +54,25 @@ class StylesForm(ModelForm):
             'weight': forms.TextInput(attrs={'class': 'form-control'}),
             'flag': forms.TextInput(attrs={'class': 'form-control'}),
             'countSize': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class CommodityForm(ModelForm):
+    class Meta:
+        model = Commodities
+        fields = [
+            'description', 'avgCtnPrice', 'stdCtnCost', 'netWeightChile', 'netWeightDomestic', 'packingCharge',
+            'pallets', 'profitPerBag', 'promo'
+        ]
+
+        widgets = {
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'avgCtnPrice': forms.TextInput(attrs={'class': 'form-control'}),
+            'stdCtnCost': forms.TextInput(attrs={'class': 'form-control'}),
+            'netWeightChile': forms.TextInput(attrs={'class': 'form-control'}),
+            'netWeightDomestic': forms.TextInput(attrs={'class': 'form-control'}),
+            'packingCharge': forms.TextInput(attrs={'class': 'form-control'}),
+            'pallets': forms.TextInput(attrs={'class': 'form-control'}),
+            'profitPerBag': forms.TextInput(attrs={'class': 'form-control'}),
+            'promo': forms.TextInput(attrs={'class': 'form-control'}),
         }

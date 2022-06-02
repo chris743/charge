@@ -2,24 +2,25 @@
 
 {% block content %}
 <h1>Commodities</h1>
-
-<table class="table table-striped">
-    <th>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+    <thead>
         <tr>
-            <td>Description</td>
-            <td>Avg. Carton Price</td>
-            <td>Std. Carton Cost</td>
-            <td>Net Wt. Chile</td>
-            <td>Net Wt. Domestic</td>
-            <td>Packing Charge</td>
-            <td>Price Per Pound</td>
-            <td>Pallets</td>
-            <td>Profit Per Bag</td>
-            <td>Promo</td>
+            <th>Description</th>
+            <th>Avg. Carton Price</th>
+            <th>Std. Carton Cost</th>
+            <th>Net Wt. Chile</th>
+            <th>Net Wt. Domestic</th>
+            <th>Packing Charge</th>
+            <th>Price Per Pound</th>
+            <th>Pallets</th>
+            <th>Profit Per Bag</th>
+            <th>Promo</th>
         </tr>
-    </th>
+    </thead>
     {% for commodity in commodities %}
     <tr>
+        {% csrf_token %}
         <td> {{ commodity.description }}</td>
         <td> {{ commodity.avgCtnPrice }}</td>
         <td> {{ commodity.stdCtnCost}}</td>
@@ -30,8 +31,27 @@
         <td> {{ commodity.pallets}}</td>
         <td> {{ commodity.profitPerBag}}</td>
         <td> {{ commodity.promo}}</td>
+        <td><a href="{% url 'update-commodity' commodity.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        <td><a href="{% url 'delete-commodity' commodity.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>
     {% endfor %}
 
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td> {{form.description}} </td>
+            <td> {{form.avgCtnPrice }} </td>
+            <td> {{form.stdCtnCost }} </td>
+            <td> {{form.netWeightChile }} </td>
+            <td> {{form.netWeightDomestic }} </td>
+            <td> {{form.packingCharge }} </td>
+            <td> {{form.pallets }} </td>
+            <td> {{form.profitPerBag }} </td>
+            <td> {{ form.promo }}</td>
+            <td><button class="btn btn-success">Apply</button></td>
+        </form> 
+    </tr>
+
 </table>
+</div>
 {% endblock %}

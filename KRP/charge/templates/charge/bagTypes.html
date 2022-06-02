@@ -2,25 +2,35 @@
 
 {% block content %}
 <h1>Bag Types</h1>
-
-<table class="table table-striped">
-    <th>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+    <thead>
         <tr>
-            <td>Bag Style</td>
-            <td>Description</td>
-            <td>Misc. Charges</td>
-            <td></td>
+            <th>Bag Style</th>
+            <th>Description</th>
+            <th>Misc. Charges</th>
+            <th></th>
         </tr>
-    </th>
+    </thead>
     {% for bagType in bagTypes %}
     <tr>
         <td> {{ bagType.bagType }}</td>
         <td> {{ bagType.description }}</td>
         <td> {{ bagType.miscCharges }}</td>
         <td><a href="{% url 'updateBagType' bagType.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
-        <td><a href="{% url 'deleteEntry' bagType.id %}" class="btn btn-danger btn-sm">Delete</a></td>
-
+        <td><a href="{% url 'delete-bag-type' bagType.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>
     {% endfor %}
+
+    <tr>
+        <form action="" method="POST">
+        {% csrf_token %}
+        <td>{{form.bagType }}</td>
+        <td>{{form.description }}</td>
+        <td>{{form.miscCharges}}</td>
+        <td><button class="btn btn-success">+Add</button></td>
+    </form>
+    </tr>
 </table>
+</div>
 {% endblock %}
