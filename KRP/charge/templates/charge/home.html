@@ -1,67 +1,90 @@
-{% extends 'main.html' %}
+{% extends 'main.html' %} {% block content %}
+<h1>Home</h1>
+<div class="container" style="padding-bottom: 20rem;">
+<div class="row pb-3">
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Bag Types</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/bagtypes" class="btn btn-primary"> Go to list </a>
+      </div>
+    </div>
+  </div>
+  <div class="col">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Bag Costs</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/bagcosts" class="btn btn-primary"> Go to list </a>
+      </div>
+    </div>
+  </div>
 
-{% block content %}
-<h1>this is the home page</h1>
-<div class="card-group">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Bag Types </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/bagtypes" class="btn btn-primary"> Go to list </a>
-        </div>
+  <div class="col">
+    <div class="card" >
+      <div class="card-body">
+        <h5 class="card-title">Packaging Costs</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/pkgcosts" class="btn btn-primary"> Go to list </a>
+      </div>
     </div>
+  </div>
+
+  <div class="col">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Bag Costs </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/bagcosts" class="btn btn-primary"> Go to list </a>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">Commodities</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/commodities" class="btn btn-primary"> Go to list </a>
+      </div>
     </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Packaging Costs </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/pkgcosts" class="btn btn-primary"> Go to list </a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Commodities </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/commodities" class="btn btn-primary"> Go to list </a>
-        </div>
-    </div>
+  </div>
 </div>
 
-<div class="card-group">
+<div class="row">
+  <div class="col">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Styles </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/bagtypes" class="btn btn-primary"> Go to list </a>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">Styles</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/bagtypes" class="btn btn-primary"> Go to list </a>
+      </div>
     </div>
+  </div>
+  <div class="col">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Admin </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/bagcosts" class="btn btn-primary"> Go to list </a>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">Admin</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/bagcosts" class="btn btn-primary"> Go to list </a>
+      </div>
     </div>
+  </div>
+  <div class="col">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Packaging Costs </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/pkgcosts" class="btn btn-primary"> Go to list </a>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">Box Difference</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/boxDiff" class="btn btn-primary"> Go to list </a>
+      </div>
     </div>
+  </div>
+  <div class="col">
     <div class="card">
-        <div class="card-body">
-            <h5 class="card-title"> Commodities </h5>
-            <p class="card-text">Create, edit, and delete different bag styles</p>
-            <a href="/commodities" class="btn btn-primary"> Go to list </a>
-        </div>
+      <div class="card-body">
+        <h5 class="card-title">Commodities</h5>
+        <p class="card-text">Create, edit, and delete different bag styles</p>
+        <a href="/commodities" class="btn btn-primary"> Go to list </a>
+      </div>
     </div>
+  </div>
+</div>
+</div>
+ 
+<div class="fixed-bottom h-25" style="background-color:rgb(55, 17, 151)">
+    <h1 class="center"></h1> 
 </div>
 
 {% endblock %}
+
