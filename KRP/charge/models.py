@@ -135,3 +135,13 @@ class BoxDifference(models.Model):
     name = models.CharField(null=False, max_length=25)
     boxDiff = models.FloatField(null=False, default=0)
     description = models.CharField(max_length=30)
+
+class Packaging(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    description = models.CharField(max_length=50)
+    cost = models.FloatField(null=False, default=0)
+
+    @property
+    def boxChargeChile(self):
+        result = self.cost + .05
+        return result

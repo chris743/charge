@@ -1,0 +1,27 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1>Packaging</h1>
+
+<div class="table-responsive">
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Box Charge Chilean</th>
+        </tr>
+    </thead>
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td>{{ form.description }}</td>
+            <td>{{ form.cost }}</td>
+            <td></td>
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
+</table>
+</div>
+    
+{% endblock %}
