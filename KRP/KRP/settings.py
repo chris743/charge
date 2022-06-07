@@ -42,7 +42,8 @@ INSTALLED_APPS = [
 
     'widget_tweaks',
 
-    'charge.apps.ChargeConfig'
+    'charge.apps.ChargeConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
