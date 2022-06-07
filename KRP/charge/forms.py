@@ -14,7 +14,7 @@ class BagTypeForm(ModelForm):
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'miscCharges': forms.TextInput(attrs={'class': 'form-control'}),
         }
-class PackagingForm(ModelForm):
+class PackagingCostForm(ModelForm):
     class Meta:
         model = PackagingCosts
         fields=['bagType', 'filmCostPerMeter', 'netCostPerMeter', 'vexarClipCost', 'miscCost']

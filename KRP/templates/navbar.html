@@ -1,50 +1,42 @@
-<nav class="navbar navbar-expand-lg bg-light">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/data/bagtypes">Bag Types</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/data/bagcosts">Bag Costs</a>
-          <li class="nav-item">            
-            <a class="nav-link" href="/data/pkgcosts">Packaging Costs</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/data/commodities">Commodities</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/data/styles">Styles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/data/boxDiff">Box Difference</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/packaging">Packaging</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/admin">Admin</a>
-          </li>
-          {% if request.user.is_authenticated %}
-          <li class="nav-item">
-            <p class="nav-link">Hello, {{ request.user.first_name }}</p>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/logout">Logout</a>
-          </li>
-          {% else %}
-          <li class="nav-item">
-            <a class="nav-link" href="/login">Login</a>
-          </li>
-          {% endif %}
+<nav class="navbar navbar-expand-sm navbar-light">
+    <div class="navbar">
+      <ul class="navbar-nav">
+        {% if request.user.is_staff %}
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/data/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/bagtypes">Bag Types</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/bagcosts">Bag Costs</a>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/pkgcosts">Packaging Costs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/commodities">Commodities</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/styles">Styles</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/boxDiff">Box Difference</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/data/packaging">Packaging</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/admin">Admin</a>
+        </li>
+        {% endif %}
 
-        </ul>
-      </div>
+        {% if request.user.is_authenticated %}
+          <p class="nav-link">Hello, {{ request.user.first_name }}</p>
+        
+          <a class="nav-link" href="/logout">Logout</a>
+        {% else %}
+          <a class="nav-link" href="/login">Login</a>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
+</nav>

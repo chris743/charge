@@ -37,3 +37,6 @@ def loginPage(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
+
+def accessDenied(request):
+    return render(request, 'users/access_Denied.html')
