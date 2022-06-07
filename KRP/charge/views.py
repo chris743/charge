@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import BagType, BagCost, BoxDifference, PackagingCosts, Commodities, Styles
+from .models import BagType, BagCost, BoxDifference, PackagingCosts, Commodities, Styles, Packaging
 from .forms import PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -224,3 +224,37 @@ def delete_boxDiff(request,pk):
     entry = BoxDifference.objects.get(id=pk)
     entry.delete()
     return redirect('boxDiff')
+
+
+#---------------Packaging Functions-----------------
+def packaging(request):
+    packagingQuery = Packaging.objects.all()
+    form = PackagingForm()
+
+    if request.method == 'POST':
+        form = PackagingForm(request.POST)
+        form.save()
+        form = PackagingForm()
+
+    ctx = {'packaging': packagingQuery, 'form': form}
+    return render(request, 'charge/packaging.html', ctx)
+
+
+def update_packaging(request, pk):
+    entry = Packaging.objects.get(id=pk)
+    form = PackagingForm(instance=entry)
+
+    if request.method == 'POST':
+        form = PackagingForm(request.POST, instance=entry)
+        if form.is_valid:
+            form.save()
+            return redirect('packaging')
+
+    ctx = {'form': form}
+    return render(request, 'charge/packaging.html', ctx)
+
+def delete_packaging(request, pk):
+    entry = Packaging.objects.get(id=pk)
+    entry.delete()
+    return redirect('packaging')
+
