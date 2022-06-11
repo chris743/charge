@@ -1,5 +1,4 @@
 from dataclasses import fields
-from tkinter.tix import Form
 from django.forms import ModelForm
 from django import forms
 from .models import Commodities, PackagingCosts, BagCost, BagType, Styles, BoxDifference, Packaging
