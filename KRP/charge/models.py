@@ -1,4 +1,4 @@
-from tkinter import CASCADE
+from django.db.models.deletion import CASCADE
 import uuid
 from django.db import models
 
