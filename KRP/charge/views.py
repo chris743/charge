@@ -59,6 +59,7 @@ def bagCosts(request):
         if form.is_valid():
             form.save()
             form = BagCostForm()
+            HttpResponseRedirect('charge/bagCosts.html')
 
 
     ctx = {'bagCosts': costQuery, 'form': form}
