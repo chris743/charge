@@ -1,7 +1,7 @@
 from dataclasses import fields
 from django.forms import ModelForm
 from django import forms
-from .models import Commodities, PackagingCosts, BagCost, BagType, Styles, BoxDifference, Packaging
+from .models import Commodities, LaborCost, MiscPackaging, PackagingCosts, BagCost, BagType, Styles, BoxDifference, Packaging
 
 class BagTypeForm(ModelForm):
     class Meta:
@@ -95,4 +95,27 @@ class PackagingForm(ModelForm):
         widgets = {
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'cost': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+class LaborCostForm(ModelForm):
+    class Meta:
+        model = LaborCost
+        fields=['bagType', 'people', 'bagsPerMinute', 'wagesPerHour']
+
+        widgets = {
+            'people': forms.TextInput(attrs={'class': 'form-control'}),
+            'bagsPerMinute': forms.TextInput(attrs={'class': 'form-control'}),
+            'wagesPerHour': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class MiscPackagingForm(ModelForm):
+    class Meta:
+        model = MiscPackaging
+        fields=['description', 'cost', 'boxChargeChile']
+
+        widgets = {
+            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'cost': forms.TextInput(attrs={'class': 'form-control'}),
+            'boxChargeChile': forms.TextInput(attrs={'class': 'form-control'}),
         }

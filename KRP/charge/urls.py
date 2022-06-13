@@ -34,4 +34,11 @@ urlpatterns = [
     path('update-packaging/<pk>', views.update_packaging, name="update-packaging"),
     path('delete-packaging/<pk>', views.delete_packaging, name="delete-packaging"),
 
+    path('laborCosts/', views.laborCosts, name="laborCosts"),
+    path('update-laborCosts/<pk>', views.update_laborCosts, name="update-laborCosts"),
+    path('delete-laborCosts/<pk>', views.delete_laborCosts, name="delete-laborCosts"),
+
+    path('miscPackaging/', views.miscPackaging, name="miscPackaging"),
+    path('update-miscPackaging/<pk>', views.update_miscPackaging, name="update-miscPackaging"),
+    path('delete-miscPackaging/<pk>', views.delete_miscPackaging, name="delete-miscPackaging"),
 ]

@@ -1,0 +1,29 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1>Labor Cost</h1>
+
+<div class="table-responsive">
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Bag Type</th>
+            <th>People</th>
+            <th>Bags Per Minute</th>
+            <th>Wages Per Hour</th>
+        </tr>
+    </thead>
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <td>{% render_field form.bagType class="form-control" name="bagType" %}</td>
+            <td>{{form.people }}</td>
+            <td>{{ form.bagsPerMinute }}</td>
+            <td>{{ form.wagesPerHour }}</td>
+            <td><button class="btn btn-success">+Add</button></td>
+        </form> 
+    </tr>
+</table>
+</div>
+    
+{% endblock %}

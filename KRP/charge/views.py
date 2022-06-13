@@ -1,8 +1,8 @@
 from unicodedata import name
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import BagType, BagCost, BoxDifference, PackagingCosts, Commodities, Styles, Packaging
-from .forms import PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm, PackagingCostForm
+from .models import BagType, BagCost, BoxDifference, LaborCost, PackagingCosts, Commodities, Styles, Packaging, MiscPackaging
+from .forms import MiscPackaging, PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm, PackagingCostForm, LaborCostForm, MiscPackagingForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 
@@ -261,3 +261,72 @@ def delete_packaging(request, pk):
     entry.delete()
     return redirect('packaging')
 
+
+#-----------Labor Cost functions------------
+
+@user_passes_test(lambda u: u.is_staff, login_url="denied")
+def laborCosts(request):
+    laborQuery = LaborCost.objects.all()
+    form = LaborCostForm()
+
+    if request.method == 'POST':
+        form = LaborCostForm(request.POST)
+        form.save()
+        form = LaborCostForm()
+
+    ctx = {'laborCosts': laborQuery, 'form': form}
+    return render(request, 'charge/laborCosts.html', ctx)
+
+@user_passes_test(lambda u: u.is_staff, login_url="denied")
+def update_laborCosts(request, pk):
+    entry = LaborCost.objects.get(id=pk)
+    form = LaborCostForm(instance=entry)
+
+    if request.method == 'POST':
+        form = LaborCostForm(request.POST, instance=entry)
+        if form.is_valid:
+            form.save()
+            return redirect('laborCosts')
+
+    ctx = {'form': form}
+    return render(request, 'charge/laborCosts.html', ctx)
+
+@user_passes_test(lambda u: u.is_staff, login_url="denied")
+def delete_laborCosts(request, pk):
+    entry = LaborCost.objects.get(id=pk)
+    entry.delete()
+    return redirect('laborCosts')
+
+#-----------------Misc Packaging Functions-------------------
+@user_passes_test(lambda u: u.is_staff, login_url="denied")
+def miscPackaging(request):
+    packagingQuery = MiscPackaging.objects.all()
+    form = MiscPackagingForm()
+
+    if request.method == 'POST':
+        form = MiscPackagingForm(request.POST)
+        form.save()
+        form = MiscPackagingForm()
+
+    ctx = {'miscPackaging': packagingQuery, 'form': form}
+    return render(request, 'charge/miscPackaging.html', ctx)
+
+@user_passes_test(lambda u: u.is_staff, login_url="denied")
+def update_miscPackaging(request, pk):
+    entry = MiscPackaging.objects.get(id=pk)
+    form = MiscPackagingForm(instance=entry)
+
+    if request.method == 'POST':
+        form = MiscPackagingForm(request.POST, instance=entry)
+        if form.is_valid:
+            form.save()
+            return redirect('miscPackaging')
+
+    ctx = {'form': form}
+    return render(request, 'charge/miscPackaging.html', ctx)
+
+@user_passes_test(lambda u: u.is_staff, login_url="denied")
+def delete_miscPackaging(request, pk):
+    entry = MiscPackaging.objects.get(id=pk)
+    entry.delete()
+    return redirect('miscPackaging')

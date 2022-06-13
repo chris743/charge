@@ -70,6 +70,7 @@ class Styles(models.Model):
     countSize = models.CharField(max_length=200)
     domesticSalesCost = models.IntegerField(null=False, default=0)
     chileanSalesCost = models.FloatField(null=False, default=0)
+    boxTypes = models.ManyToManyField("BoxDifference")
 
     @property
     def palletsAdjustment(self):
@@ -145,3 +146,21 @@ class Packaging(models.Model):
     def boxChargeChile(self):
         result = self.cost + .05
         return result
+
+class LaborCost(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    bagType = models.ForeignKey(BagType, on_delete=models.CASCADE)
+    people = models.IntegerField(null=False, default=0)
+    bagsPerMinute = models.IntegerField(null=False, default=0)
+    wagesPerHour = models.FloatField(null=False, default=0)
+
+    @property
+    def laborPerBag(self):
+        result = (self.people * self.wagesPerHour) / (self.bagsPerMinute * 60)
+        return result
+
+class MiscPackaging(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    description = models.CharField(max_length=50)
+    cost = models.FloatField(null=False, default=0)
+    boxChargeChile = models.FloatField(null=False, default=0)
