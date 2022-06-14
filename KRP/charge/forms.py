@@ -45,14 +45,14 @@ class BagCostForm(ModelForm):
 class StylesForm(ModelForm):
     class Meta:
         model = Styles
-        fields = ['commodity', 'bagType', 'twb_flag', 'count', 'bagSize', 'weight', 'flag', 'countSize']
+        fields = ['commodity', 'bagType', 'twb_flag', 'count', 'bagSize', 'weight', 'flag']
 
         widgets = {
             'count': forms.TextInput(attrs={'class': 'form-control'}),
             'bagSize': forms.TextInput(attrs={'class': 'form-control'}),
             'weight': forms.TextInput(attrs={'class': 'form-control'}),
             'flag': forms.TextInput(attrs={'class': 'form-control'}),
-            'countSize': forms.TextInput(attrs={'class': 'form-control'}),
+            #'countSize': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 

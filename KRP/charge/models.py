@@ -51,8 +51,11 @@ class Commodities (models.Model):
 
     @property
     def pricePerPound(self):
-        pricePerPound = (self.avgCtnPrice - self.packingCharge) / self.netWeightDomestic
-        return pricePerPound
+        if self.netWeightDomestic == 0:
+            return 0
+        else:
+            pricePerPound = (self.avgCtnPrice - self.packingCharge) / self.netWeightDomestic
+            return pricePerPound
 
     def __str__(self) -> str:
         return self.description
@@ -67,10 +70,18 @@ class Styles(models.Model):
     bagSize = models.IntegerField(null=False, default=0)
     weight = models.FloatField(null=False, default=0)
     flag = models.IntegerField(null=False, default=0)
-    countSize = models.CharField(max_length=200)
+    countSize = models.CharField(max_length=200, default="NULL")
     domesticSalesCost = models.IntegerField(null=False, default=0)
     chileanSalesCost = models.FloatField(null=False, default=0)
     boxTypes = models.ManyToManyField("BoxDifference")
+
+    def save(self, *args, **kwargs):
+        self.updateCountSize()
+        super().save(*args, **kwargs)
+
+    def updateCountSize(self):
+        self.countSize = ("%s x %s" % (self.count, self.bagSize))
+
 
     @property
     def palletsAdjustment(self):
@@ -123,13 +134,7 @@ class Styles(models.Model):
 
     @property
     def conversionChile(self):
-        if self.weight > 0:
-            temp = self.commodity.netWeightChile
-            result = (self.weight / temp)
-        else:
-            result = ((self.referring_bagCost.bagWeight * self.count) / self.commodity.netWeightChile)
-        
-        return round(result,2)
+        return 1
 
 class BoxDifference(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
