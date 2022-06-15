@@ -70,6 +70,7 @@ class CommodityForm(ModelForm):
             'stdCtnCost': forms.TextInput(attrs={'class': 'form-control'}),
             'netWeightChile': forms.TextInput(attrs={'class': 'form-control'}),
             'netWeightDomestic': forms.TextInput(attrs={'class': 'form-control'}),
+            #'pricePerPound': forms.TextInput(attrs={'class': 'form-control'}),
             'packingCharge': forms.TextInput(attrs={'class': 'form-control'}),
             'pallets': forms.TextInput(attrs={'class': 'form-control'}),
             'profitPerBag': forms.TextInput(attrs={'class': 'form-control'}),

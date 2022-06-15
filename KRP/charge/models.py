@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 from django.db.models.deletion import CASCADE
 import uuid
 from django.db import models
@@ -42,20 +43,26 @@ class Commodities (models.Model):
     description = models.CharField(max_length=30, blank=False)
     avgCtnPrice = models.FloatField(null=False, default=0)
     stdCtnCost = models.FloatField(null=False, default=0)
+    pricePerPound = models.FloatField(null=False, default=0)
     netWeightChile = models.FloatField(null=False, default=0)
     netWeightDomestic = models.FloatField(null=False, default=0)
     packingCharge = models.FloatField(null=False, default=0)
     pallets = models.FloatField(null=False, default=0)
-    profitPerBag = models.FloatField(null=False, default=0)
+    profitPerBag = models.FloatField(null=True, default=0)
     promo = models.FloatField(null=False, default=0)
 
-    @property
-    def pricePerPound(self):
+    def save(self, *args, **kwargs):
+        self.calcPricePerPound()
+        super().save(*args, **kwargs)
+
+    def calcPricePerPound(self):
+        print("im here")
         if self.netWeightDomestic == 0:
             return 0
         else:
+            print("math time")
             pricePerPound = (self.avgCtnPrice - self.packingCharge) / self.netWeightDomestic
-            return pricePerPound
+            self.pricePerPound = pricePerPound
 
     def __str__(self) -> str:
         return self.description
@@ -65,7 +72,7 @@ class Styles(models.Model):
     commodity = models.ForeignKey(Commodities, on_delete=models.CASCADE, default=1)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
     referring_bagCost = models.ForeignKey(BagCost, on_delete=models.CASCADE, default=1, db_constraint=False)
-    twb_flag = models.BooleanField(null=True)
+    twb_flag = models.BooleanField(null=True, choices=((True,('Yes')),(False, ('No'))))
     count = models.IntegerField(null=False, default=0)
     bagSize = models.IntegerField(null=False, default=0)
     weight = models.FloatField(null=False, default=0)
@@ -74,6 +81,13 @@ class Styles(models.Model):
     domesticSalesCost = models.IntegerField(null=False, default=0)
     chileanSalesCost = models.FloatField(null=False, default=0)
     boxTypes = models.ManyToManyField("BoxDifference")
+
+    def round_to_value(self, number):
+        number = round(number, 2)
+        number = (number + .025) * 100
+        number = round(number, 1)
+        number = ((round(number / 5) * 5))/100
+        return number
 
     def save(self, *args, **kwargs):
         self.updateCountSize()
@@ -93,29 +107,28 @@ class Styles(models.Model):
 
     @property
     def promoAdjustment(self):
-        if (self.weight > 0):
-            result = round(self.commodity.promo / self.commodity.netWeightDomestic / self.weight, 2)
-        else:
-            result = round(self.commodity.promo * self.conversionDomestic)
-
+        result = self.commodity.promo * self.conversionDomestic
         return result
 
     @property
     def packingAdjustment(self):
         if (self.weight > 0):
             value = self.bagType.miscCharges * (self.weight / self.commodity.netWeightDomestic)
+            result = self.round_to_value(value)
+            return result
         else:
-            value = self.count *(self.referring_bagCost.costFinal + self.commodity.profitPerBag)
-
-        nickeled = value * 20
-        rounded = round(nickeled, 0)
-        result = rounded / 20
-        return round(result, 2)
+            value = self.count * (self.referring_bagCost.totalCost + self.commodity.profitPerBag)
+            value = self.round_to_value(value)
+            return value
     
     @property
     def fruitLossAdjustment(self):
-        result = self.count * .3 * self.commodity.pricePerPound
-        return round(result, 2)
+        if self.count == 0:
+            return NULL
+        else:
+            result = self.count * .3 * self.commodity.pricePerPound
+            result = self.round_to_value(result)
+            return result
 
     @property
     def totalAdjustment(self):
