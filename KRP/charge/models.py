@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from django.db.models.deletion import CASCADE
 import uuid
 from django.db import models
@@ -124,7 +123,7 @@ class Styles(models.Model):
     @property
     def fruitLossAdjustment(self):
         if self.count == 0:
-            return NULL
+            return " "
         else:
             result = self.count * .3 * self.commodity.pricePerPound
             result = self.round_to_value(result)
