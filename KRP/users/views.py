@@ -27,7 +27,7 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             print("authenticated")
-            return redirect('profiles')
+            return redirect('home')
         else:
             print('Username or Password was incorrect')
 
