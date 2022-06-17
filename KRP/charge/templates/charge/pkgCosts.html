@@ -10,7 +10,7 @@
             <th>Film Cost/Meter</th>
             <th>Net Cost/Meter</th>
             <th>Vexar Clip Cost</th>
-            <th>Misc. Cost</th>
+            <th>Label Cost</th>
             <th></th>
         </tr>
     </thead>
@@ -20,7 +20,7 @@
         <td> {{ pkgcost.filmCostPerMeter }}</td>
         <td> {{ pkgcost.netCostPerMeter }}</td>
         <td> {{ pkgcost.vexarClipCost }}</td>
-        <td> {{ pkgcost.miscCost }}</td>
+        <td> {{ pkgcost.labelCost }}</td>
         <td><a href="{% url 'update-pkg' pkgcost.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
         <td><a href="{% url 'delete-pkg' pkgcost.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     
@@ -35,7 +35,7 @@
             <td>{{form.filmCostPerMeter }}</td>
             <td>{{ form.netCostPerMeter }}</td>
             <td>{{ form.vexarClipCost }}</td>
-            <td>{{ form.miscCost }}</td>
+            <td>{{ form.labelCost }}</td>
             <td><button class="btn btn-success">+Add</button></td>
         </form> 
     </tr>

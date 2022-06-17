@@ -1,4 +1,3 @@
-from dataclasses import fields
 from django.forms import ModelForm
 from django import forms
 from .models import Commodities, LaborCost, MiscPackaging, PackagingCosts, BagCost, BagType, Styles, BoxDifference, Packaging
@@ -16,13 +15,13 @@ class BagTypeForm(ModelForm):
 class PackagingCostForm(ModelForm):
     class Meta:
         model = PackagingCosts
-        fields=['bagType', 'filmCostPerMeter', 'netCostPerMeter', 'vexarClipCost', 'miscCost']
+        fields=['bagType', 'filmCostPerMeter', 'netCostPerMeter', 'vexarClipCost', 'labelCost']
 
         widgets = {
             'filmCostPerMeter': forms.TextInput(attrs={'class': 'form-control'}),
             'netCostPerMeter': forms.TextInput(attrs={'class': 'form-control'}),
             'vexarClipCost': forms.TextInput(attrs={'class': 'form-control'}),
-            'miscCost': forms.TextInput(attrs={'class': 'form-control'}),
+            'labelCost': forms.TextInput(attrs={'class': 'form-control'}),
         }         
 
 class BagCostForm(ModelForm):

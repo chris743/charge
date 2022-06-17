@@ -14,9 +14,9 @@
     </thead>
     {% for miscPackage in miscPackaging %}
     <tr>
-        <td> {{ laborCost.description }}</td>
-        <td> {{ laborCost.cost }}</td>
-        <td> {{ laborCost.boxChargeChile }}</td>
+        <td> {{ miscPackage.description }}</td>
+        <td> {{ miscPackage.cost }}</td>
+        <td> {{ miscPackage.boxChargeChile }}</td>
         <td><a href="{% url 'update-miscPackaging' miscPackage.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
         <td><a href="{% url 'delete-miscPackaging' miscPackage.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>

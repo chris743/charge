@@ -3,6 +3,8 @@ import uuid
 from django.db import models
 
 
+
+
 # Create your models here.
 class BagType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
@@ -24,10 +26,28 @@ class BagCost(models.Model):
     laborCost = models.FloatField(null=False, default=0)
     totalCost = models.FloatField(null=False, default=0)
 
+    @property
+    def calculation_costPerBag(self):
+        if self.bagType.bagType == "Giro":
+            netCost = PackagingCosts.objects.get(bagType=self.bagType).netCostPerMeter
+            filmCost = PackagingCosts.objects.get(bagType=self.bagType).filmCostPerMeter
+            labelCost = PackagingCosts.objects.get(bagType=self.bagType).labelCost
+
+            result = ((filmCost / 100) * (self.bagLength * 2)) + (((netCost / 100) * self.bagLength) + labelCost)
+            return round(result, 4)
+        elif self.bagType.bagType == "Vexar":
+            netCost = PackagingCosts.objects.get(bagType=self.bagType).netCostPerMeter
+            clipCost = PackagingCosts.objects.get(bagType=self.bagType).vexarClipCost
+            labelCost = PackagingCosts.objects.get(bagType=self.bagType).labelCost
+            result = ((netCost / 100) * self.bagLength) + labelCost + clipCost
+            return round(result, 4)
+        else:
+            return self.costPerBag
+            
     @property 
     def costFinal(self):
-        total = self.costPerBag * (1 + self.wastePercentage) + self.laborCost
-        return total
+        total = ((self.calculation_costPerBag * (1 + self.wastePercentage)) + LaborCost.objects.get(bagType=self.bagType).laborPerBag)
+        return round(total, 4)
 
 class PackagingCosts(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
@@ -35,6 +55,7 @@ class PackagingCosts(models.Model):
     filmCostPerMeter = models.FloatField(null=False, default=0)
     netCostPerMeter = models.FloatField(null=False, default=0)
     vexarClipCost = models.FloatField(null=False, default=0)
+    labelCost = models.FloatField(null=False, default=0)
     miscCost = models.FloatField(null=False, default=0)
 
 class Commodities (models.Model):
@@ -55,11 +76,9 @@ class Commodities (models.Model):
         super().save(*args, **kwargs)
 
     def calcPricePerPound(self):
-        print("im here")
         if self.netWeightDomestic == 0:
             return 0
         else:
-            print("math time")
             pricePerPound = (self.avgCtnPrice - self.packingCharge) / self.netWeightDomestic
             self.pricePerPound = pricePerPound
 
@@ -70,7 +89,7 @@ class Styles(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
     commodity = models.ForeignKey(Commodities, on_delete=models.CASCADE, default=1)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
-    referring_bagCost = models.ForeignKey(BagCost, on_delete=models.CASCADE, default=1, db_constraint=False)
+    referring_bagCost = models.ForeignKey(BagCost, on_delete=models.CASCADE, default=1)
     twb_flag = models.BooleanField(null=True, choices=((True,('Yes')),(False, ('No'))))
     count = models.IntegerField(null=False, default=0)
     bagSize = models.IntegerField(null=False, default=0)
@@ -95,15 +114,28 @@ class Styles(models.Model):
     def updateCountSize(self):
         self.countSize = ("%s x %s" % (self.count, self.bagSize))
 
+    @property
+    def conversionDomestic(self):
+        if self.weight == 0:
+            result = self.commodity.netWeightDomestic
+            return result
+        else:
+            return self.weight
+
+    @property
+    def conversionChile(self):
+        return 1
 
     @property
     def palletsAdjustment(self):
-        value = (self.commodity.pallets * self.conversionDomestic)
-        nickeld = value *20
-        rounded = round(nickeld, 0)
-        result = rounded /20
-        return round(result, 2)
-
+        palletCost = MiscPackaging.objects.get(id="deac5a1e-fd3c-4e3b-998a-4730313fc183")
+        palletCost = palletCost.cost
+        if self.twb_flag == False or self.twb_flag == "NULL":
+            result = palletCost * self.conversionDomestic
+            return self.round_to_value(result)
+        else:
+            return palletCost
+            
     @property
     def promoAdjustment(self):
         result = self.commodity.promo * self.conversionDomestic
@@ -111,12 +143,12 @@ class Styles(models.Model):
 
     @property
     def packingAdjustment(self):
-        if (self.weight > 0):
-            value = self.bagType.miscCharges * (self.weight / self.commodity.netWeightDomestic)
+        if self.weight > 0:
+            value = 1 * (self.weight / self.commodity.netWeightDomestic)
             result = self.round_to_value(value)
             return result
         else:
-            value = self.count * (self.referring_bagCost.totalCost + self.commodity.profitPerBag)
+            value = self.count * (self.referring_bagCost.costFinal + self.commodity.profitPerBag)
             value = self.round_to_value(value)
             return value
     
@@ -134,19 +166,7 @@ class Styles(models.Model):
         totalAdjustment = self.fruitLossAdjustment + self.packingAdjustment + self.palletsAdjustment + self.promoAdjustment
         return round(totalAdjustment, 2)
 
-    @property
-    def conversionDomestic(self):
-        if self.weight > 0:
-            result = self.commodity.netWeightDomestic
 
-        else:
-            result = (self.referring_bagCost.bagWeight * self.count) / self.commodity.netWeightDomestic
-        
-        return result
-
-    @property
-    def conversionChile(self):
-        return 1
 
 class BoxDifference(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)

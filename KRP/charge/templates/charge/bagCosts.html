@@ -21,11 +21,10 @@
         <td> {{ bagCost.bagType }}</td>
         <td> {{ bagCost.description }}</td>
         <td> {{ bagCost.bagWeight }}</td>
-        <td> {{ bagCost.costPerBag }}</td>
+        <td> {{ bagCost.calculation_costPerBag }}</td>
         <td> {{ bagCost.bagLength }}</td>
         <td> {{ bagCost.wastePercentage }}</td>
         <td> {{ bagCost.laborCost }}</td>
-        <td> {{ bagCost.totalCost }}</td>
         <td> {{ bagCost.costFinal }}</td>
         <td><a href="{% url 'updateBagCostEntry' bagCost.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
         <td><a href="{% url 'delete-bag-cost' bagCost.id %}" class="btn btn-danger btn-sm">Delete</a></td>

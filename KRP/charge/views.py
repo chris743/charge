@@ -51,7 +51,7 @@ def updateBagType(request, pk):
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
 def bagCosts(request):
     costQuery = BagCost.objects.all()
-
+    
     form = BagCostForm()
 
     if request.method == 'POST':
