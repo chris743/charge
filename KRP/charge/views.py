@@ -1,4 +1,5 @@
 from unicodedata import name
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from .models import BagType, BagCost, BoxDifference, LaborCost, PackagingCosts, Commodities, Styles, Packaging, MiscPackaging
@@ -60,6 +61,8 @@ def bagCosts(request):
             form.save()
             form = BagCostForm()
             HttpResponseRedirect('charge/bagCosts.html')
+        else:
+            messages.error(request, "Item failed to post to database. Does this bag type have an associated labor cost?")
 
 
     ctx = {'bagCosts': costQuery, 'form': form}
@@ -96,7 +99,8 @@ def pkgCosts(request):
         form = PackagingCostForm(request.POST)
         if form.is_valid():
             form.save()
-            form = PackagingForm()
+            form = PackagingCostForm()
+            HttpResponseRedirect("charge/pkgCost.html")
 
     ctx = {"pkgcosts": pkgQuery, 'form': form,}
 

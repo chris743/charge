@@ -27,8 +27,7 @@ class PackagingCostForm(ModelForm):
 class BagCostForm(ModelForm):
     class Meta:
         model = BagCost
-        fields = ['bagType', 'description', 'bagWeight', 'costPerBag', 'bagLength', 'wastePercentage',
-        'laborCost', 'totalCost']
+        fields = ['bagType', 'description', 'bagWeight', 'costPerBag', 'bagLength', 'wastePercentage']
 
         widgets = {
             'description': forms.TextInput(attrs={'class': 'form-control'}),
@@ -36,8 +35,7 @@ class BagCostForm(ModelForm):
             'costPerBag': forms.TextInput(attrs={'class': 'form-control'}),
             'bagLength': forms.TextInput(attrs={'class': 'form-control'}),
             'wastePercentage': forms.TextInput(attrs={'class': 'form-control'}),
-            'laborCost': forms.TextInput(attrs={'class': 'form-control'}),
-            'totalCost': forms.TextInput(attrs={'class': 'form-control'}),
+
         }
 
 

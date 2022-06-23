@@ -1,3 +1,4 @@
+from tarfile import TarFile
 from django.db.models.deletion import CASCADE
 import uuid
 from django.db import models
@@ -7,7 +8,7 @@ from django.db import models
 
 # Create your models here.
 class BagType(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     bagType = models.CharField(max_length=50, null=True)
     description = models.TextField(null=True)
     miscCharges = models.FloatField(default=0, null=False)
@@ -15,17 +16,26 @@ class BagType(models.Model):
     def __str__(self) -> str:
         return self.bagType
 
+class LaborCost(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True)
+    bagType = models.ForeignKey(BagType, on_delete=models.CASCADE)
+    people = models.IntegerField(null=False, default=0)
+    bagsPerMinute = models.IntegerField(null=False, default=0)
+    wagesPerHour = models.FloatField(null=False, default=0)
+
+    @property
+    def laborPerBag(self):
+        result = (self.people * self.wagesPerHour) / (self.bagsPerMinute * 60)
+        return result
+
 class BagCost(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
     description = models.TextField(null=True)
     bagWeight = models.FloatField(null=False, default=0)
     costPerBag = models.FloatField(null=False, default=0)
     bagLength = models.FloatField(null=False, default=0)
     wastePercentage = models.FloatField(null=False, default=0)
-    laborCost = models.FloatField(null=False, default=0)
-    totalCost = models.FloatField(null=False, default=0)
-
     @property
     def calculation_costPerBag(self):
         if self.bagType.bagType == "Giro":
@@ -44,13 +54,18 @@ class BagCost(models.Model):
         else:
             return self.costPerBag
             
+    @property
+    def laborCost(self):
+        result = LaborCost.objects.get(bagType=self.bagType).laborPerBag
+        return result
+        
     @property 
     def costFinal(self):
         total = ((self.calculation_costPerBag * (1 + self.wastePercentage)) + LaborCost.objects.get(bagType=self.bagType).laborPerBag)
         return round(total, 4)
 
 class PackagingCosts(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
     filmCostPerMeter = models.FloatField(null=False, default=0)
     netCostPerMeter = models.FloatField(null=False, default=0)
@@ -59,7 +74,7 @@ class PackagingCosts(models.Model):
     miscCost = models.FloatField(null=False, default=0)
 
 class Commodities (models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     description = models.CharField(max_length=30, blank=False)
     avgCtnPrice = models.FloatField(null=False, default=0)
     stdCtnCost = models.FloatField(null=False, default=0)
@@ -86,7 +101,7 @@ class Commodities (models.Model):
         return self.description
 
 class Styles(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     commodity = models.ForeignKey(Commodities, on_delete=models.CASCADE, default=1)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
     referring_bagCost = models.ForeignKey(BagCost, on_delete=models.CASCADE, default=1)
@@ -116,7 +131,7 @@ class Styles(models.Model):
 
     @property
     def conversionDomestic(self):
-        if self.weight == 0:
+        if self.weight > 0:
             result = self.commodity.netWeightDomestic
             return result
         else:
@@ -128,7 +143,7 @@ class Styles(models.Model):
 
     @property
     def palletsAdjustment(self):
-        palletCost = MiscPackaging.objects.get(id="deac5a1e-fd3c-4e3b-998a-4730313fc183")
+        palletCost = MiscPackaging.objects.get(description="Pallet")
         palletCost = palletCost.cost
         if self.twb_flag == False or self.twb_flag == "NULL":
             result = palletCost * self.conversionDomestic
@@ -169,13 +184,13 @@ class Styles(models.Model):
 
 
 class BoxDifference(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     name = models.CharField(null=False, max_length=25)
     boxDiff = models.FloatField(null=False, default=0)
     description = models.CharField(max_length=30)
 
 class Packaging(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     description = models.CharField(max_length=50)
     cost = models.FloatField(null=False, default=0)
 
@@ -184,20 +199,8 @@ class Packaging(models.Model):
         result = self.cost + .05
         return result
 
-class LaborCost(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
-    bagType = models.ForeignKey(BagType, on_delete=models.CASCADE)
-    people = models.IntegerField(null=False, default=0)
-    bagsPerMinute = models.IntegerField(null=False, default=0)
-    wagesPerHour = models.FloatField(null=False, default=0)
-
-    @property
-    def laborPerBag(self):
-        result = (self.people * self.wagesPerHour) / (self.bagsPerMinute * 60)
-        return result
-
 class MiscPackaging(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     description = models.CharField(max_length=50)
     cost = models.FloatField(null=False, default=0)
     boxChargeChile = models.FloatField(null=False, default=0)
