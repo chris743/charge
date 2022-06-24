@@ -18,7 +18,11 @@
         <td> {{ miscPackage.cost }}</td>
         <td> {{ miscPackage.boxChargeChile }}</td>
         <td><a href="{% url 'update-miscPackaging' miscPackage.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
+        {% if miscPackage.description != "Pallet" %}
         <td><a href="{% url 'delete-miscPackaging' miscPackage.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+        {% else %}
+        <td></td>
+        {% endif %}
     </tr>
     {% endfor %}
 
