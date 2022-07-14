@@ -1,11 +1,12 @@
+import json
 from unicodedata import name
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from .models import BagType, BagCost, BoxDifference, LaborCost, PackagingCosts, Commodities, Styles, Packaging, MiscPackaging
 from .forms import MiscPackaging, PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm, PackagingCostForm, LaborCostForm, MiscPackagingForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
@@ -160,18 +161,28 @@ def deleteCommodity(request,pk):
     entry = Commodities.objects.get(id=pk)
     entry.delete()
     return redirect('commodities')
+
+
+
 #--------------Styles Functions--------------------
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
 def styles(request):
     stylesQuery = Styles.objects.all()
+
     form = StylesForm()
 
     if request.method == 'POST':
         form = StylesForm(request.POST)
+        bagSize = float(request.POST['size'])
         if form.is_valid():
-            form.save()
+            print("valid")
+            newStyle = form.save(commit=False)
+            newStyle.bagSize = bagSize
+            newStyle.save()
             form = StylesForm()
             HttpResponseRedirect('charge/styles.html')
+        else:
+            print(form.errors.as_data())
 
     ctx = {'styles': stylesQuery, 'form': form}
     return render(request, 'charge/styles.html', ctx)
@@ -195,6 +206,9 @@ def deleteStyle(request,pk):
     entry = Styles.objects.get(id=pk)
     entry.delete()
     return redirect('styles')
+
+
+
 
 #-------------Box Difference Functions-----------------
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
@@ -334,3 +348,14 @@ def delete_miscPackaging(request, pk):
     entry = MiscPackaging.objects.get(id=pk)
     entry.delete()
     return redirect('miscPackaging')
+
+@csrf_exempt
+def getWeights(params):
+    id = params.POST['id']
+    costs = BagCost.objects.filter(bagType=id)
+    weight = {}
+    i=1
+    for bag in costs:
+        weight[i] = bag.bagWeight
+        i+=1
+    return JsonResponse(weight)

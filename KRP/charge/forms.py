@@ -1,5 +1,7 @@
+from random import choices
 from django.forms import ModelForm
 from django import forms
+
 from .models import Commodities, LaborCost, MiscPackaging, PackagingCosts, BagCost, BagType, Styles, BoxDifference, Packaging
 
 class BagTypeForm(ModelForm):
@@ -40,10 +42,10 @@ class BagCostForm(ModelForm):
 
 
 class StylesForm(ModelForm):
+
     class Meta:
         model = Styles
         fields = ['commodity', 'bagType', 'twb_flag', 'count', 'bagSize', 'weight', 'flag']
-
         widgets = {
             'count': forms.TextInput(attrs={'class': 'form-control'}),
             'bagSize': forms.TextInput(attrs={'class': 'form-control'}),
@@ -51,7 +53,6 @@ class StylesForm(ModelForm):
             'flag': forms.TextInput(attrs={'class': 'form-control'}),
             #'countSize': forms.TextInput(attrs={'class': 'form-control'}),
         }
-
 
 class CommodityForm(ModelForm):
     class Meta:

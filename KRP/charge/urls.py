@@ -1,6 +1,6 @@
 from unicodedata import name
 from django.urls import path
-from . import views
+from . import views, getweights
 
 urlpatterns = [
     path('home/', views.home, name="home"),
@@ -41,4 +41,6 @@ urlpatterns = [
     path('miscPackaging/', views.miscPackaging, name="miscPackaging"),
     path('update-miscPackaging/<pk>', views.update_miscPackaging, name="update-miscPackaging"),
     path('delete-miscPackaging/<pk>', views.delete_miscPackaging, name="delete-miscPackaging"),
+
+    path('getweights/', views.getWeights, name="getweights"),
 ]

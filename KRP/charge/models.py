@@ -1,3 +1,4 @@
+from pickle import TRUE
 from tarfile import TarFile
 from django.db.models.deletion import CASCADE
 import uuid
@@ -105,9 +106,9 @@ class Styles(models.Model):
     commodity = models.ForeignKey(Commodities, on_delete=models.CASCADE, default=1)
     bagType = models.ForeignKey(BagType, on_delete=models.CASCADE, default=1)
     referring_bagCost = models.ForeignKey(BagCost, on_delete=models.CASCADE, default=1)
-    twb_flag = models.BooleanField(null=True, choices=((True,('Yes')),(False, ('No'))))
+    twb_flag = models.BooleanField(null=True, default=False, choices=((True,('True')),(False, ('False'))))
     count = models.IntegerField(null=False, default=0)
-    bagSize = models.IntegerField(null=False, default=0)
+    bagSize = models.IntegerField(null=True, blank=True)
     weight = models.FloatField(null=False, default=0)
     flag = models.IntegerField(null=False, default=0)
     countSize = models.CharField(max_length=200, default="NULL")
@@ -132,10 +133,11 @@ class Styles(models.Model):
     @property
     def conversionDomestic(self):
         if self.weight > 0:
-            result = self.commodity.netWeightDomestic
+            result = self.weight / self.commodity.netWeightDomestic
             return result
         else:
-            return self.weight
+            result = (self.count * self.bagSize) / self.commodity.netWeightDomestic
+            return result
 
     @property
     def conversionChile(self):
@@ -170,7 +172,7 @@ class Styles(models.Model):
     @property
     def fruitLossAdjustment(self):
         if self.count == 0:
-            return " "
+            return 1
         else:
             result = self.count * .3 * self.commodity.pricePerPound
             result = self.round_to_value(result)
@@ -179,7 +181,7 @@ class Styles(models.Model):
     @property
     def totalAdjustment(self):
         totalAdjustment = self.fruitLossAdjustment + self.packingAdjustment + self.palletsAdjustment + self.promoAdjustment
-        return round(totalAdjustment, 2)
+        return round(totalAdjustment, 5)
 
 
 

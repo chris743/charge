@@ -1,12 +1,13 @@
 {% extends 'main.html'%}
 {% load widget_tweaks %}
+{% load static %}
 {% block content %}
 <h1>Styles</h1>
 
 <div class="table-responsive">
 <table class="table table-sm table-striped">
     <thead>
-        <tr>
+        <tr style="text-align: center;">
             <th>Commodity</th>
             <th>Bag Type</th>
             <th>TWB_Flag</th>
@@ -26,13 +27,33 @@
         </tr>
     </thead>
     {% for style in styles %}
-    <tr>
+    <tr style="text-align: center;">
         <td> {{ style.commodity }}</td>
         <td> {{ style.bagType }}</td>
-        <td> {{style.twb_flag }}</td>
+
+        {% if style.twb_flag == True %}
+        <td> TWB </td>
+        {% else %}
+        <td> </td>
+        {% endif %}
+
+        {% if style.count != 0 %}
         <td> {{ style.count }} </td>
+        {% else %}
+        <td> </td>
+        {% endif %}
+
+        {% if style.bagSize != 0 %}
         <td> {{ style.bagSize }} </td>
+        {% else %}
+        <td></td>
+        {% endif %}
+
+        {% if style.weight != 0 %}
         <td> {{ style.weight }} </td>
+        {% else %}
+        <td></td>
+        {% endif %}
         <td> {{ style.conversionDomestic }}</td>
         <td> {{style.conversionChile }} </td>
         <td> {{style.palletsAdjustment }}</td>
@@ -41,7 +62,12 @@
         <td> {{style.fruitLossAdjustment }} </td>
         <td> {{style.totalAdjustment }}</td>
         <td> {{ style.flag }} </td>
+
+        {% if style.count == 0 or style.bagSize == 0 %}
+        <td></td>
+        {% else %}
         <td>{{style.countSize}}</td>
+        {% endif %}
         <td> {{style.domesticSalesCost }}</td>
         <td><a href="{% url 'update-style' style.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
         <td><a href="{% url 'delete-style' style.id %}" class="btn btn-danger btn-sm">Delete</a></td>
@@ -53,10 +79,14 @@
             {% csrf_token %}
             <!-- <td>{{ form.boxType }}</td> -->
             <td>{% render_field form.commodity class="form-control" name="commodity" %}</td>
-            <td>{% render_field form.bagType class="form-control" name="boxType" %}</td>
+            <td class="bagType">{% render_field form.bagType class="form-control" name="boxType" %}</td>
             <td>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</td>
             <td>{{ form.count }}</td>
-            <td>{{ form.bagSize }}</td>
+            <td>
+              <select id="bagSize_selector" name="size" class="form-control">
+                <option value="0">0</option>
+              </select>
+            </td>
             <td>{{ form.weight }}</td>
             <td></td>
             <td></td>
@@ -68,6 +98,41 @@
             <td>{{ form.flag }}</td>
             <td>{{ form.countSize }}</td>
             <td><button class="btn btn-success">+Add</button></td>
+
+            <script>
+                let bags = document.querySelectorAll(".bagType")
+                console.log(bags)
+                
+                let child = bags[0]
+                console.log(child)
+        
+                child.addEventListener("change", function(e){
+        
+                $.ajax({
+                type: "POST",
+                url: "/data/getweights/",
+                data: {
+                    id: e.target.value,
+                }
+                }).done((o) => {
+
+                var sizeArr = []
+                var selector = document.getElementById("bagSize_selector");
+                if(selector.hasChildNodes){
+                    while(selector.firstChild){selector.firstChild.remove()}
+                }
+                for(const [key, size] of Object.entries(o)){
+                    var el = document.createElement("option");
+                    el.textContent = size;
+                    el.value = size;
+                    selector.appendChild(el);
+                }
+                });                  
+            })
+              
+
+        
+            </script>
         </form> 
     </tr>
 </table>
