@@ -5,8 +5,6 @@ import uuid
 from django.db import models
 
 
-
-
 # Create your models here.
 class BagType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
@@ -37,6 +35,7 @@ class BagCost(models.Model):
     costPerBag = models.FloatField(null=False, default=0)
     bagLength = models.FloatField(null=False, default=0)
     wastePercentage = models.FloatField(null=False, default=0)
+    
     @property
     def calculation_costPerBag(self):
         if self.bagType.bagType == "Giro":
@@ -145,18 +144,18 @@ class Styles(models.Model):
 
     @property
     def palletsAdjustment(self):
-        palletCost = MiscPackaging.objects.get(description="Pallet")
-        palletCost = palletCost.cost
+        palletCost = MiscPackaging.objects.get(description="Pallet").cost
         if self.twb_flag == False or self.twb_flag == "NULL":
-            result = palletCost * self.conversionDomestic
+            result = self.commodity.pallets * self.conversionDomestic
+            print(result)
             return self.round_to_value(result)
         else:
-            return palletCost
+            return self.round_to_value(palletCost)
             
     @property
     def promoAdjustment(self):
         result = self.commodity.promo * self.conversionDomestic
-        return result
+        return self.round_to_value(result)
 
     @property
     def packingAdjustment(self):
@@ -165,7 +164,13 @@ class Styles(models.Model):
             result = self.round_to_value(value)
             return result
         else:
-            value = self.count * (self.referring_bagCost.costFinal + self.commodity.profitPerBag)
+            costObject = BagCost.objects.get(bagType = self.bagType, bagWeight=self.bagSize)
+            labor = LaborCost.objects.get(bagType=self.bagType).laborPerBag
+            totalCost = ((labor * (1 + costObject.wastePercentage)) + labor)
+       
+            value = self.count * (totalCost + self.commodity.profitPerBag)
+            print(totalCost)
+            print("total")
             value = self.round_to_value(value)
             return value
     

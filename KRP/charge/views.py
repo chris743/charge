@@ -193,9 +193,12 @@ def updateStyle(request, pk):
     form = StylesForm(instance=entry)
 
     if request.method == 'POST':
+        bagSize = float(request.POST['size'])
         form = StylesForm(request.POST, instance=entry)
         if form.is_valid:
-            form.save()
+            newStyle = form.save(commit=False)
+            newStyle.bagSize = bagSize
+            newStyle.save()
             return redirect('styles')
 
     ctx = {'form': form}
