@@ -43,4 +43,6 @@ urlpatterns = [
     path('delete-miscPackaging/<pk>', views.delete_miscPackaging, name="delete-miscPackaging"),
 
     path('getweights/', views.getWeights, name="getweights"),
+
+    path('reportBuilder/', views.reportBuilder, name="reportBuilder"),
 ]
