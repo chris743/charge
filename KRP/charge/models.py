@@ -192,7 +192,7 @@ class Styles(models.Model):
 
 class BoxDifference(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
-    name = models.CharField(null=False, max_length=25)
+    name = models.ForeignKey("MiscPackaging", on_delete=models.CASCADE, default=1)
     boxDiff = models.FloatField(null=False, default=0)
     description = models.CharField(max_length=30)
 
@@ -210,4 +210,11 @@ class MiscPackaging(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
     description = models.CharField(max_length=50)
     cost = models.FloatField(null=False, default=0)
-    boxChargeChile = models.FloatField(null=False, default=0)
+
+    @property
+    def boxChargeChile(self):
+        result = self.cost + .05
+        return round(result, 2)
+    
+    def __str__(self) -> str:
+        return self.description

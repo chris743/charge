@@ -25,7 +25,7 @@
     <tr>
         <form action="" method="POST">
             {% csrf_token %}
-            <td>{{ form.name }}</td>
+            <td>{% render_field form.name class="form-control" name="name" %}</td>
             <td>{{ form.boxDiff }}</td>
             <td>{{ form.description }}</td>
             <td><button class="btn btn-success">+Add</button></td>

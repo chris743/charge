@@ -81,7 +81,7 @@ class BoxDifferenceForm(ModelForm):
         fields=['name', 'boxDiff', 'description']
 
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            #'name': forms.TextInput(attrs={'class': 'form-control'}),
             'boxDiff': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
         }
@@ -111,10 +111,10 @@ class LaborCostForm(ModelForm):
 class MiscPackagingForm(ModelForm):
     class Meta:
         model = MiscPackaging
-        fields=['description', 'cost', 'boxChargeChile']
+        fields=['description', 'cost']
 
         widgets = {
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'cost': forms.TextInput(attrs={'class': 'form-control'}),
-            'boxChargeChile': forms.TextInput(attrs={'class': 'form-control'}),
+            #'boxChargeChile': forms.TextInput(attrs={'class': 'form-control'}),
         }
