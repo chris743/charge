@@ -1,0 +1,31 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Bag Costs | {{ date }}</h1>
+<table>
+<thead>
+    <tr>
+        <th>Bag Type</th>
+        <th>Description</th>
+        <th>Bag Weight</th>
+        <th>Cost Per Bag</th>
+        <th>Bag Length</th>
+        <th>Waste %</th>
+        <th>Labor Cost</th>
+        <th>Total Cost</th>
+    </tr>
+</thead>
+{% for bagCost in items %}
+<tr>
+    <td> {{ bagCost.bagType }}</td>
+    <td> {{ bagCost.description }}</td>
+    <td> {{ bagCost.bagWeight }}</td>
+    <td class="currency"> ${{ bagCost.calculation_costPerBag }}</td>
+    <td> {{ bagCost.bagLength }}</td>
+    <td class="percentage"> {{ bagCost.wastePercentage }}</td>
+    <td class="currency"> ${{ bagCost.laborCost }}</td>
+    <td class="currency"> ${{ bagCost.costFinal }}</td>
+</tr>
+
+{% endfor %}
+</table>
+{% endblock %}

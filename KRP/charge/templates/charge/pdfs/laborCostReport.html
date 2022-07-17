@@ -1,0 +1,25 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Labor Costs | {{ date }}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Bag Type</th>
+            <th>People</th>
+            <th>Bags Per Minute</th>
+            <th>Wages Per Hour</th>
+            <th>Labor Per Bag</th>
+        </tr>
+    </thead>
+    {% for laborCost in items %}
+    <tr>
+        <td> {{ laborCost.bagType }}</td>
+        <td> {{ laborCost.people }}</td>
+        <td> {{ laborCost.bagsPerMinute }}</td>
+        <td> {{ laborCost.wagesPerHour }}</td>
+        <td> {{ laborCost.laborPerBag }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

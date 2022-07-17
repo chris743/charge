@@ -1,0 +1,69 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Styles | {{ date }}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Commodity</th>
+            <th>Bag Type</th>
+            <th>TWB</th>
+            <th>Count</th>
+            <th>Bag Size</th>
+            <th>Weight</th>
+            <th>Domestic Conv.</th>
+            <th>Pallets Adj.</th>
+            <th>Promo Adj.</th>
+            <th>Packing Adj.</th>
+            <th>Fruit Loss Adj.</th>
+            <th>Total Adj.</th>
+            <th>Flag</th>
+            <th>Count Size</th>
+            <th>Domestic Sales Cost</th>
+        </tr>
+    </thead>
+    {% for style in items %}
+    <tr>
+        <td> {{ style.commodity }}</td>
+        <td> {{ style.bagType }}</td>
+
+        {% if style.twb_flag == True %}
+        <td> TWB </td>
+        {% else %}
+        <td> </td>
+        {% endif %}
+
+        {% if style.count != 0 %}
+        <td> {{ style.count }} </td>
+        {% else %}
+        <td> </td>
+        {% endif %}
+
+        {% if style.bagSize != 0 %}
+        <td> {{ style.bagSize }} </td>
+        {% else %}
+        <td></td>
+        {% endif %}
+
+        {% if style.weight != 0 %}
+        <td> {{ style.weight }} </td>
+        {% else %}
+        <td></td>
+        {% endif %}
+        <td> {{ style.conversionDomestic }}</td>
+        <td> {{style.palletsAdjustment }}</td>
+        <td> {{style.promoAdjustment }} </td>
+        <td> {{ style.packingAdjustment }}</td>
+        <td> {{style.fruitLossAdjustment }} </td>
+        <td> {{style.totalAdjustment }}</td>
+        <td> {{ style.flag }} </td>
+
+        {% if style.count == 0 or style.bagSize == 0 %}
+        <td></td>
+        {% else %}
+        <td>{{style.countSize}}</td>
+        {% endif %}
+        <td> {{style.domesticSalesCost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

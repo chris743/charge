@@ -1,0 +1,20 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Misc. Packaging | {{ date }}</h1>
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Box Charge Chile</th>
+        </tr>
+    </thead>
+    {% for miscPackage in items %}
+    <tr>
+        <td> {{ miscPackage.description }}</td>
+        <td> {{ miscPackage.cost }}</td>
+        <td> {{ miscPackage.boxChargeChile }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

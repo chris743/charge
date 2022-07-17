@@ -1,0 +1,21 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Box Differences | {{ date }}</h1>
+<table >
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Box Difference</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    {% for boxDiff in items %}
+    <tr>
+        <td> {{ boxDiff.name }}</td>
+        <td> {{ boxDiff.boxDiff }}</td>
+        <td> {{ boxDiff.description }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

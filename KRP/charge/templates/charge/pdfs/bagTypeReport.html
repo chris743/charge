@@ -1,0 +1,23 @@
+{% extends 'reportbase.html' %}
+
+{% block table %}
+
+<h1>  Bag Types | {{ date }}</h1>
+<table class="table table-striped table-sm">
+    <thead>
+        <tr>
+            <th>Bag Style</th>
+            <th>Description</th>
+            <th>Misc. Charges</th>
+        </tr>
+    </thead>
+    {% for bagType in items %}
+    <tr>
+        <td> {{ bagType.bagType }}</td>
+        <td> {{ bagType.description }}</td>
+        <td> {{ bagType.miscCharges }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

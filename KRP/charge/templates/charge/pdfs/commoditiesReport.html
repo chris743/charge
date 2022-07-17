@@ -1,0 +1,35 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Commodities | {{ date }}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Description</th>
+            <th>Avg. Carton Price</th>
+            <th>Std. Carton Cost</th>
+            <th>Net Wt. Chile</th>
+            <th>Net Wt. Domestic</th>
+            <th>Packing Charge</th>
+            <th>Price Per Pound</th>
+            <th>Pallets</th>
+            <th>Profit Per Bag</th>
+            <th>Promo</th>
+        </tr>
+    </thead>
+    {% for commodity in items %}
+    <tr>
+        <td> {{ commodity.description }}</td>
+        <td> {{ commodity.avgCtnPrice }}</td>
+        <td> {{ commodity.stdCtnCost}}</td>
+        <td> {{ commodity.netWeightChile}}</td>
+        <td> {{ commodity.netWeightDomestic}}</td>
+        <td> {{ commodity.packingCharge}}</td>
+        <td> {{ commodity.pricePerPound}}</td>
+        <td> {{ commodity.pallets}}</td>
+        <td> {{ commodity.profitPerBag}}</td>
+        <td> {{ commodity.promo}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+
+{% endblock %}

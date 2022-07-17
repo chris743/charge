@@ -1,0 +1,24 @@
+{% extends 'reportbase.html' %}
+{% block table %}
+<h1>  Packaging Costs | {{ date }}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Bag Style</th>
+            <th>Film Cost/Meter</th>
+            <th>Net Cost/Meter</th>
+            <th>Vexar Clip Cost</th>
+            <th>Label Cost</th>
+        </tr>
+    </thead>
+    {% for pkgcost in items %}
+    <tr>
+        <td> {{ pkgcost.bagType }}</td>
+        <td> {{ pkgcost.filmCostPerMeter }}</td>
+        <td> {{ pkgcost.netCostPerMeter }}</td>
+        <td> {{ pkgcost.vexarClipCost }}</td>
+        <td> {{ pkgcost.labelCost }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

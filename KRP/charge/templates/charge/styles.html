@@ -3,6 +3,7 @@
 {% load static %}
 {% block content %}
 <h1>Styles</h1>
+<a href="{% url 'styles-report' %}" target="_blank" class="btn btn-primary btn-sm">Printable PDF</a>
 
 <div class="table-responsive">
 <table class="table table-sm table-striped">
@@ -10,7 +11,7 @@
         <tr style="text-align: center;">
             <th>Commodity</th>
             <th>Bag Type</th>
-            <th>TWB_Flag</th>
+            <th>TWB</th>
             <th>Count</th>
             <th>Bag Size</th>
             <th>Weight</th>

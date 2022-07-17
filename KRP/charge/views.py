@@ -1,4 +1,5 @@
 import json
+from django.views.generic import ListView
 from unicodedata import name
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
@@ -7,9 +8,7 @@ from .models import BagType, BagCost, BoxDifference, LaborCost, PackagingCosts, 
 from .forms import MiscPackaging, PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm, PackagingCostForm, LaborCostForm, MiscPackagingForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
-import io
-from reportlab.pdfgen import canvas
-
+from django.template.loader import get_template
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
@@ -365,17 +364,3 @@ def getWeights(params):
         weight[i] = bag.bagWeight
         i+=1
     return JsonResponse(weight)
-
-@user_passes_test(lambda u: u.is_staff, login_url="login")
-def reportBuilder(request):
-    buffer = io.BytesIO()
-
-    p=canvas.Canvas(buffer)
-
-    p.drawString(100, 100, "hello")
-
-    p.showPage()
-    p.save()
-
-    buffer.seek(0)
-    return FileResponse(buffer, as_attachment=True, filename='test.pdf')

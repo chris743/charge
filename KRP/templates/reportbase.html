@@ -1,0 +1,18 @@
+{% load static %}
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="static/charge/css/reports.css">
+        <title>{{ model }} | {{ date }}</title>
+    </head>
+    
+
+    <body>
+        <div class="logo">
+        <img class="logo_header" src="static/charge/KRP_logo.jpg">
+        </div>
+       {% block table %}
+
+       {% endblock %}
+    </body>
+</html>

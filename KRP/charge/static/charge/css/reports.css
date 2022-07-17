@@ -1,0 +1,21 @@
+body{
+    font-family:Arial, Helvetica, sans-serif;
+}
+th, td {
+    text-align: center;
+    vertical-align: bottom;
+    border-bottom: 1px solid #ddd;
+    font-size: 9pt;
+}
+td{
+    padding-top:3px ;
+}
+.logo_header {
+    height: 50;
+}
+.logo {
+    text-align: center;
+}
+.currSign:before {
+    content: '$';
+}
