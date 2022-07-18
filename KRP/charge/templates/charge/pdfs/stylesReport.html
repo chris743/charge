@@ -18,7 +18,6 @@
             <th>Total Adj.</th>
             <th>Flag</th>
             <th>Count Size</th>
-            <th>Domestic Sales Cost</th>
         </tr>
     </thead>
     {% for style in items %}
@@ -62,7 +61,6 @@
         {% else %}
         <td>{{style.countSize}}</td>
         {% endif %}
-        <td> {{style.domesticSalesCost }}</td>
     </tr>
     {% endfor %}
 </table>

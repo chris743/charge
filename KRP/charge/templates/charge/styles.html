@@ -24,7 +24,6 @@
             <th>Total Adjustment</th>
             <th>Flag</th>
             <th>Count Size</th>
-            <th>Domestic Sales Cost</th>
         </tr>
     </thead>
     {% for style in styles %}
@@ -69,7 +68,6 @@
         {% else %}
         <td>{{style.countSize}}</td>
         {% endif %}
-        <td> {{style.domesticSalesCost }}</td>
         <td><a href="{% url 'update-style' style.id %}" class="btn btn-secondary btn-sm">Edit</a></td>
         <td><a href="{% url 'delete-style' style.id %}" class="btn btn-danger btn-sm">Delete</a></td>
     </tr>

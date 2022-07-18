@@ -5,6 +5,7 @@ import uuid
 from django.db import models
 
 
+
 # Create your models here.
 class BagType(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False, max_length=36)
@@ -113,7 +114,6 @@ class Styles(models.Model):
     countSize = models.CharField(max_length=200, default="NULL")
     domesticSalesCost = models.IntegerField(null=False, default=0)
     chileanSalesCost = models.FloatField(null=False, default=0)
-    boxTypes = models.ManyToManyField("BoxDifference")
 
     def round_to_value(self, number):
         number = round(number, 2)
@@ -188,6 +188,12 @@ class Styles(models.Model):
         totalAdjustment = self.fruitLossAdjustment + self.packingAdjustment + self.palletsAdjustment + self.promoAdjustment
         return round(totalAdjustment, 5)
 
+    @property
+    def costDomestic(self):
+        FOB_COST = Constants.objects.get(id="FOB_COST")
+        box_difference = BoxDifference.objects(name=self.bagType).boxDiff
+        result = (FOB_COST * self.conversionDomestic) + self.totalAdjustment + box_difference
+        return result
 
 
 class BoxDifference(models.Model):
@@ -218,3 +224,8 @@ class MiscPackaging(models.Model):
     
     def __str__(self) -> str:
         return self.description
+
+
+class Constants(models.Model):
+    id = models.CharField(primary_key=True, unique=True, null=False, blank=False, max_length=50)
+    value = models.FloatField(null=False, default=0)

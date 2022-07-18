@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'charge.apps.ChargeConfig',
     'users.apps.UsersConfig',
+    'sales_search.apps.SalesSearchConfig',
 ]
 
 MIDDLEWARE = [
