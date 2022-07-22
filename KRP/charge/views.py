@@ -363,4 +363,6 @@ def getWeights(params):
     for bag in costs:
         weight[i] = bag.bagWeight
         i+=1
+
+    print(weight)
     return JsonResponse(weight)

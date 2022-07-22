@@ -1,33 +1,88 @@
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- CSS only -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/sales_search/css/search.css/">
 
     <title>ChargeDB</title>
 </head>
 <body>
-    <h1>Search</h1>
-    <div class="mx-auto" style="display: block;">
 
-    <form action="POST">
-        <div class="mx-auto" style="width: 50%;">
-        <div class="container d-inline p-2 bg-primary text-white">
-            hello
-        </div>
-        <div class="container d-inline p-2 bg-dark text-white">
-            hello
-        </div>
-        </div>
-    </form>
-</div>
+    <div class="card mx-auto mt-50" style="width: 25rem; margin-top: 5rem;">
+        <div class="card-body">
 
-</script>
+            <form action="#" method="POST">
+                {% csrf_token %}
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-    
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm" style="text-align: right;">
+                            FOB
+                        </div>
+                        <div class="col-sm">
+                            <input class="form-control" type="text" style="width: 12rem;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm" style="text-align: right;">
+                            Commodity
+                        </div>
+                        <div class="col-sm" >
+                            <select name="Commodiy" id="commodity-selector" class="commodity btn btn-outline-dark" style="width: 12rem;">
+                                <option value="">Commodity</option>
+                                {% for commodity in commodities %}
+                                <option value="{{commodity.id}}">{{commodity.description}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm" style="text-align: right;">
+                            Bag Type
+                        </div>
+                        <div class="col-sm" >
+                            <select name="bagType" id="bagType-selector" class="bagType btn btn-outline-dark" style="width: 12rem;">
+                                <option value="">Bag Type</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm" style="text-align: right;">
+                            Count / Size
+                        </div>
+                        <div class="col-sm" >
+                            <select name="countSize" id="countSize-selector" class="btn btn-outline-dark" style="width: 12rem;">
+                                <option value="">Count/Size</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm" >
+                            <button class="btn btn-danger w-100"> Clear </button>
+                        </div>
+                        <div class="col-sm">
+                            <a class="btn btn-primary w-100" id="search"> Find </a>
+                        </div>
+                        
+                    </div>
+                </div>     
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/sales_search/js/search.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+
 </body>
-</html> 
+
+</html>
