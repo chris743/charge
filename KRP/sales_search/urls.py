@@ -9,4 +9,5 @@ urlpatterns = [
     path('getBags/', views.getBags, name="getBags"),
     path('getCountSize/', views.getCountSize, name="getCountSize"),
     path('getResults/', views.getResults, name="results"),
+    path('item/<pk>/', views.displayResult, name='display')
 ]

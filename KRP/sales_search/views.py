@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from charge.models import Commodities, BagType, Styles
 from django.http import JsonResponse, HttpResponse
 import json
@@ -41,7 +41,7 @@ def getCountSize(params):
     return JsonResponse(sizes)
 
 @csrf_exempt
-def getResults(params, request):
+def getResults(params):
     type_raw=params.POST['type']
     commodity=params.POST['commodity']
     count_size=params.POST['count_size']
@@ -50,7 +50,10 @@ def getResults(params, request):
 
     style = Styles.objects.get(commodity=commodity, bagType=type, countSize=count_size)
     ctx={'style': style}
-    return render(request, 'sales_search/searchResults.html', ctx)
+    return redirect('/item/{{style.id}}')
+
+def displayResult(request):
+    return HttpResponse("hello")
 
 
 
