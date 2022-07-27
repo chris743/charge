@@ -1,11 +1,15 @@
 window.onload = function() {
-    let commodities = document.querySelectorAll(".commodity")
-    console.log(commodities)
+    
+    let commodities = document.querySelectorAll(".commodity");
+    let commodities_child = commodities[0];
+    let bagType = document.querySelectorAll(".bagType");
+    let type_child = bagType[0];
+    let selected_commodity = document.getElementById("commodity-selector");
+    let selected_bag = document.getElementById("bagType-selector");
+    let search_button = document.getElementById("search");
+    let selected_count_size = document.getElementById("countSize-selector") 
 
-    let child = commodities[0]
-    console.log(child)
-
-    child.addEventListener("change", function(e){
+    commodities_child.addEventListener("change", function(e){
         $.ajax({
             type: "POST",
             url: "/search/getBags/",
@@ -13,7 +17,6 @@ window.onload = function() {
                 id: e.target.value,
             }
         }).done((o) => {
-            var typeArr = []
             var selector = document.getElementById("bagType-selector");
             if(selector.hasChildNodes){
                 while(selector.firstChild){selector.firstChild.remove()}
@@ -25,14 +28,7 @@ window.onload = function() {
                 selector.appendChild(el)
             }
         })
-    }) 
-
-    let bagType = document.querySelectorAll(".bagType")
-
-    let type_child = bagType[0]
-
-    let selected_commodity = document.getElementById("commodity-selector")
-
+    })
     type_child.addEventListener("change", function(e){
         $.ajax({
             type: "POST",
@@ -42,7 +38,6 @@ window.onload = function() {
                 commodity: selected_commodity.value,
             }
         }).done((o) => {
-            var CSArr = []
             var selector = document.getElementById("countSize-selector");
             if(selector.hasChildNodes){
                 while(selector.firstChild){selector.firstChild.remove()}
@@ -56,6 +51,19 @@ window.onload = function() {
         })
     })
     
-    
-   }
+    search_button.addEventListener("click", function(e){
+        $.ajax({
+            type: "POST",
+            url: "/search/getResults/",
+            data: {
+              type: selected_bag.value,
+              commodity: selected_commodity.value,
+              count_size: selected_count_size.value,
+            }
+        })
+        .done(function(data) {console.log("gere")})
+        .fail(function(e){console.log("no good")})
+        
+        })
+}
 

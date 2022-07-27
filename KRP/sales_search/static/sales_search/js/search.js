@@ -7,7 +7,8 @@ window.onload = function() {
     let selected_commodity = document.getElementById("commodity-selector");
     let selected_bag = document.getElementById("bagType-selector");
     let search_button = document.getElementById("search");
-    let selected_count_size = document.getElementById("countSize-selector") 
+    let selected_count_size = document.getElementById("countSize-selector");
+    let FOB = document.getElementById("fob-input"); 
 
     commodities_child.addEventListener("change", function(e){
         $.ajax({
@@ -56,10 +57,42 @@ window.onload = function() {
             type: "POST",
             url: "/search/getResults/",
             data: {
+              fob: FOB.value,
               type: selected_bag.value,
               commodity: selected_commodity.value,
               count_size: selected_count_size.value,
             }
+        }).done(function(o) {
+            console.log("gere")
+            
+            
+            for(const [key, value] of Object.entries(o)){
+                console.log(value)
+                var commodity_paragraph = document.createElement("p");
+                var commodity = document.createTextNode(selected_commodity.value);
+                commodity_paragraph.appendChild(commodity);
+
+                var bagType_paragraph = document.createElement("p");
+                var bagType = document.createTextNode(selected_bag.value);
+                bagType_paragraph.appendChild(bagType);
+
+                var countSize_paragraph = document.createElement("p");
+                var countSize = document.createTextNode(selected_count_size.value);
+                countSize_paragraph.appendChild(countSize);
+
+                var fob_paragraph = document.createElement("p");
+                var fob = document.createTextNode(FOB.value);
+                fob_paragraph.appendChild(fob);
+
+                var div = document.getElementById("result");
+                div.appendChild(commodity_paragraph);
+                div.appendChild(bagType_paragraph);
+                div.appendChild(countSize_paragraph);
+                div.appendChild(fob_paragraph);
+                
+            }
+        }).fail(function(){
+            console.log("no good")
         })
         
         })

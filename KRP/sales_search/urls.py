@@ -5,9 +5,8 @@ from .models import *
 from . import views
 
 urlpatterns = [
-    path('', views.search, name="BagTypes" ),
-    path('getBags/', views.getBags, name="getBags"),
-    path('getCountSize/', views.getCountSize, name="getCountSize"),
-    path('getResults/', views.getResults, name="results"),
-    path('item/<pk>/', views.displayResult, name='display')
-]
+    path('', views.Search.as_view(), name="BagTypes" ),
+    path('getBags/', views.Search.getBags, name="getBags"),
+    path('getCountSize/', views.Search.getCountSize, name="getCountSize"),
+    path('getResults/', views.Search.getResults, name="results"),
+    ]

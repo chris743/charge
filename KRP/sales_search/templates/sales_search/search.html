@@ -12,12 +12,12 @@
     <title>ChargeDB</title>
 </head>
 <body>
-
     <div class="card mx-auto mt-50" style="width: 25rem; margin-top: 5rem;">
         <div class="card-body">
 
             <form action="#" method="POST">
                 {% csrf_token %}
+                
                 <style>
                     .row {
                         padding-bottom: 1rem;
@@ -30,7 +30,7 @@
                             FOB
                         </div>
                         <div class="col-sm">
-                            <input class="form-control" type="text" style="width: 12rem;">
+                            <input class="form-control" id="fob-input" type="text" style="width: 12rem;">
                         </div>
                     </div>
                     <div class="row">
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-sm" >
                             <select name="Commodiy" id="commodity-selector" class="commodity btn btn-outline-dark" style="width: 12rem;">
-                                <option value="">Commodity</option>
+                                <option value="" disabled selected>Make a Selection</option>
                                 {% for commodity in commodities %}
                                 <option value="{{commodity.id}}">{{commodity.description}}</option>
                                 {% endfor %}
@@ -52,7 +52,6 @@
                         </div>
                         <div class="col-sm" >
                             <select name="bagType" id="bagType-selector" class="bagType btn btn-outline-dark" style="width: 12rem;">
-                                <option value="">Bag Type</option>
                             </select>
                         </div>
                     </div>
@@ -62,7 +61,6 @@
                         </div>
                         <div class="col-sm" >
                             <select name="countSize" id="countSize-selector" class="btn btn-outline-dark" style="width: 12rem;">
-                                <option value="">Count/Size</option>
                             </select>
                         </div>
                     </div>
@@ -78,6 +76,13 @@
                 </div>     
             </form>
         </div>
+
+ 
+    </div>
+
+    <div id="result">
+        
+
     </div>
 
     <script src="/static/sales_search/js/search.js"></script>
