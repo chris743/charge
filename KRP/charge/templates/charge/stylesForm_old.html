@@ -1,0 +1,88 @@
+{% extends 'main.html'%}
+{% load widget_tweaks %}
+{% block content %}
+<h1>Styles</h1>
+
+<table class="table table-sm table-striped">
+    <thead>
+        <tr>
+            <th>Commodity</th>
+            <th>Bag Type</th>
+            <th>TWB_Flag</th>
+            <th>Count</th>
+            <th>Bag Size</th>
+            <th>Weight</th>
+            <th>Domestic Conversion</th>
+            <th>Chile Conversion</th>
+            <th>Pallets Adjustment</th>
+            <th>Promo Adjustment</th>
+            <th>Packing Adjustment</th>
+            <th>Fruit Loss Adjustment</th>
+            <th>Total Adjustment</th>
+            <th>Flag</th>
+            <th>Count Size</th>
+            <th>Domestic Sales Cost</th>
+        </tr>
+    </thead>
+    </th>
+    <tr>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- <td>{{ form.boxType }}</td> -->
+            <td>{% render_field form.commodity class="form-control" name="commodity" %}</td>
+            <td class="bagType">{% render_field form.bagType class="form-control" name="boxType" %}</td>
+            <td>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</td>
+            <td>{{ form.count }}</td>
+            <td>
+              <select id="bagSize_selector" name="size" class="form-control">
+                <option value="0">0</option>
+              </select>
+            </td>
+            <td>{{ form.weight }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{ form.flag }}</td>
+            <td>{{ form.countSize }}</td>
+            <td><button class="btn btn-success">+Add</button></td>
+
+            <script>
+                let bags = document.querySelectorAll(".bagType")
+                console.log(bags)
+                
+                let child = bags[0]
+                console.log(child)
+        
+                child.addEventListener("change", function(e){
+        
+                $.ajax({
+                type: "POST",
+                url: "/data/getweights/",
+                data: {
+                    id: e.target.value,
+                }
+                }).done((o) => {
+
+                var sizeArr = []
+                var selector = document.getElementById("bagSize_selector");
+                if(selector.hasChildNodes){
+                    while(selector.firstChild){selector.firstChild.remove()}
+                }
+                for(const [key, size] of Object.entries(o)){
+                    var el = document.createElement("option");
+                    el.textContent = size;
+                    el.value = size;
+                    selector.appendChild(el);
+                }
+                });                  
+            })
+            </script>
+        </form> 
+    </tr>
+</table>
+    
+{% endblock %}

@@ -54,9 +54,11 @@ class Search(View):
         style = Styles.objects.get(commodity=commodity, bagType=type, countSize=count_size)
 
         def costDomestic(style):
-            box_difference = BoxDifference.objects(name=style.bagType).boxDiff
+            box_difference = BoxDifference.objects.get(name=style.bagType).boxDiff
             result = (fob * style.conversionDomestic) + style.totalAdjustment + box_difference
             return result
+
+        print(costDomestic(style))
 
         data = serialize("json", [style], fields=('commodity', 'countSize', 'costDomestic'))
         return HttpResponse(data, content_type="application/json")

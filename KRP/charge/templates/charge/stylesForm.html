@@ -3,86 +3,234 @@
 {% block content %}
 <h1>Styles</h1>
 
-<table class="table table-sm table-striped">
-    <thead>
-        <tr>
-            <th>Commodity</th>
-            <th>Bag Type</th>
-            <th>TWB_Flag</th>
-            <th>Count</th>
-            <th>Bag Size</th>
-            <th>Weight</th>
-            <th>Domestic Conversion</th>
-            <th>Chile Conversion</th>
-            <th>Pallets Adjustment</th>
-            <th>Promo Adjustment</th>
-            <th>Packing Adjustment</th>
-            <th>Fruit Loss Adjustment</th>
-            <th>Total Adjustment</th>
-            <th>Flag</th>
-            <th>Count Size</th>
-            <th>Domestic Sales Cost</th>
-        </tr>
-    </thead>
-    </th>
-    <tr>
+<div class="container" style="max-width: 75%;">
+<div class="row">
+<div class="col-sm-4 border">
+    <div class="container card-body">
+        <div class="row">
+            <div class="col-sm-5" style="text-align: left;">
+            <h2>Properties</h2>
+        </div>
+        </div>
         <form action="" method="POST">
             {% csrf_token %}
-            <!-- <td>{{ form.boxType }}</td> -->
-            <td>{% render_field form.commodity class="form-control" name="commodity" %}</td>
-            <td class="bagType">{% render_field form.bagType class="form-control" name="boxType" %}</td>
-            <td>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</td>
-            <td>{{ form.count }}</td>
-            <td>
-              <select id="bagSize_selector" name="size" class="form-control">
-                <option value="0">0</option>
-              </select>
-            </td>
-            <td>{{ form.weight }}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>{{ form.flag }}</td>
-            <td>{{ form.countSize }}</td>
-            <td><button class="btn btn-success">+Add</button></td>
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>Commodity</p>
+                </div>
+                <div class="col-sm-5">
+                    <p>{% render_field form.commodity class="form-control" name="commodity" %}</p>
+                </div>
+            </div>
 
-            <script>
-                let bags = document.querySelectorAll(".bagType")
-                console.log(bags)
-                
-                let child = bags[0]
-                console.log(child)
-        
-                child.addEventListener("change", function(e){
-        
-                $.ajax({
-                type: "POST",
-                url: "/data/getweights/",
-                data: {
-                    id: e.target.value,
-                }
-                }).done((o) => {
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>Bag Type</p>
+                </div>
+                <div class="col-sm-5">
+                    <p class="bagType">{% render_field form.bagType class="form-control" name="boxType" %}</p>
+                    </div>
+            </div>
 
-                var sizeArr = []
-                var selector = document.getElementById("bagSize_selector");
-                if(selector.hasChildNodes){
-                    while(selector.firstChild){selector.firstChild.remove()}
-                }
-                for(const [key, size] of Object.entries(o)){
-                    var el = document.createElement("option");
-                    el.textContent = size;
-                    el.value = size;
-                    selector.appendChild(el);
-                }
-                });                  
-            })
-            </script>
-        </form> 
-    </tr>
-</table>
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>TWB_Flag</p>
+                </div>
+                <div class="col-sm-5">
+                    <p>{% render_field form.twb_flag class="form-control" name="twb_flag" %}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>Count</p>
+                </div>
+                <div class="col-sm-5">
+                    <p>{{ form.count }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>Bag Size</p>
+                </div>
+                <div class="col-sm-5">
+                    <p>
+                        <select id="bagSize_selector" name="size" class="form-control">
+                            <option value="0">0</option>
+                        </select>
+                    </p>
+                </div>
+
+                {{form.miscPackaging}}
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>Weight</p>
+                </div>
+                <div class="col-sm-5">
+                    <p>{{ form.weight }}</p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-5" style="text-align: right;">
+                    <p>Flag</p>
+                </div>
+                <div class="col-sm-5">
+                    <p>{{ form.flag }}</p>
+                </div>
+            </div>
+                <p><button class="btn btn-success">Apply</button></p>
+
+                <script>
+                    let bags = document.querySelectorAll(".bagType")
+                    console.log(bags)
+
+                    let child = bags[0]
+                    console.log(child)
+
+                    child.addEventListener("change", function (e) {
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/data/getweights/",
+                            data: {
+                                id: e.target.value,
+                            }
+                        }).done((o) => {
+
+                            var sizeArr = []
+                            var selector = document.getElementById("bagSize_selector");
+                            if (selector.hasChildNodes) {
+                                while (selector.firstChild) { selector.firstChild.remove() }
+                            }
+                            for (const [key, size] of Object.entries(o)) {
+                                var el = document.createElement("option");
+                                el.textContent = size;
+                                el.value = size;
+                                selector.appendChild(el);
+                            }
+                        });
+                    })
+                </script>
+        </form>
+    </div>
+</div>
+
+
+<div class="col-sm-4 border">
+    <div class="row">
+        <div class="col-md">
+            <h2>Derived Values</h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Domestic Conversion</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="{{style.conversionDomestic}}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Chile Conversion</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="{{style.conversionChile}}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Count Size</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="{{style.countSize}}" readonly></input>
+            <p></p>
+        </div>
+    </div>
     
+</div> 
+
+<div class="col-sm-4 border">
+    <div class="row">
+        <div class="col-sm-5">
+            <h2>Adjustments</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Pallets Adjustment</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="${{ style.palletsAdjustment }}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Promo Adjustment</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="${{style.promoAdjustment}}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Packing Adjustment</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="${{style.packingAdjustment}}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Fruit Loss Adjustment</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="${{style.fruitLossAdjustment}}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Total Adjustment</p>
+        </div>
+        <div class="col-sm-5">
+            <input class="form-control narrow" value="${{style.totalAdjustment}}" readonly></input>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="text-align: right;">
+            <p>Domestic Sales Cost</p>
+        </div>
+        <div class="col-sm-5">
+            <p>AWAITING DATA</p>
+        </div>
+    </div>
+
+</div>
+</div>  
+</div>
+<style>
+    .form-control:read-only{
+        background-color: white;
+        margin-bottom: 1rem;
+    }
+    .narrow{
+        max-width: 5rem;
+        text-align: center;
+    }
+    .border{
+        border: 1px solid black;
+    }
+</style>
 {% endblock %}

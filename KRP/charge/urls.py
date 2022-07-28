@@ -32,7 +32,7 @@ urlpatterns = [
 
 
     path('styles/', views.styles, name="styles"),
-    path('updateStlye/<pk>', views.updateStyle, name="update-style"),
+    path('updateStyle/<pk>', views.updateStyle, name="update-style"),
     path('deleteStyle/<pk>', views.deleteStyle, name="delete-style"),
     path('report-styles/', reporting.RenderPDF, {'model': Styles, 'template_name': "charge/pdfs/stylesReport.html"}, name="styles-report"),
 

@@ -201,9 +201,11 @@ def updateStyle(request, pk):
             newStyle = form.save(commit=False)
             newStyle.bagSize = bagSize
             newStyle.save()
-            return redirect('styles')
+            return HttpResponseRedirect(pk)
 
-    ctx = {'form': form}
+        
+
+    ctx = {'form': form, 'style':entry}
     return render(request, 'charge/stylesForm.html', ctx)
 
 @user_passes_test(lambda u: u.is_staff, login_url="denied")

@@ -1,6 +1,6 @@
-from random import choices
 from django.forms import ModelForm
 from django import forms
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 from .models import Commodities, LaborCost, MiscPackaging, PackagingCosts, BagCost, BagType, Styles, BoxDifference, Packaging
 
@@ -45,12 +45,15 @@ class StylesForm(ModelForm):
 
     class Meta:
         model = Styles
-        fields = ['commodity', 'bagType', 'twb_flag', 'count', 'bagSize', 'weight', 'flag']
+        
+        fields = ['commodity', 'bagType', 'twb_flag', 'count', 'bagSize', 'weight', 'flag', 'miscPackaging']
         widgets = {
             'count': forms.TextInput(attrs={'class': 'form-control'}),
             'bagSize': forms.TextInput(attrs={'class': 'form-control'}),
             'weight': forms.TextInput(attrs={'class': 'form-control'}),
             'flag': forms.TextInput(attrs={'class': 'form-control'}),
+            'miscPackaging': forms.SelectMultiple(attrs={'class': 'form-control'})
+            #'miscPackaging': FilteredSelectMultiple(MiscPackaging, False)
             #'countSize': forms.TextInput(attrs={'class': 'form-control'}),
         }
 

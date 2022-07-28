@@ -114,6 +114,7 @@ class Styles(models.Model):
     countSize = models.CharField(max_length=200, default="NULL")
     domesticSalesCost = models.IntegerField(null=False, default=0)
     chileanSalesCost = models.FloatField(null=False, default=0)
+    miscPackaging = models.ManyToManyField('MiscPackaging')
 
     def round_to_value(self, number):
         number = round(number, 2)
