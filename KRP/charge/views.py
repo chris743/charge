@@ -192,37 +192,49 @@ def styles(request):
     ctx = {'styles': stylesQuery, 'form': form}
     return render(request, 'charge/styles.html', ctx)
 
+import pandas as pd
+
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
 def updateStyle(request, pk):
     entry = Styles.objects.get(id=pk)
     form = StylesForm(instance=entry)
 
     packagingItems = entry.miscPackaging.all()
-    
+    miscPackagingQuery = MiscPackaging.objects.all()
+
+    boxDiffs = BoxDifference.objects.filter(name)
+
+    for p in packagingItems:
+        mpData = {
+            'Description':[p.description],
+            'Cost':[p.cost],
+            'BoxDifference':[]
+        }
+
+
+
+
+
 
     if request.method == 'POST':
         bagSize = float(request.POST['size'])
         form = StylesForm(request.POST, instance=entry)
-        if form.is_valid:
+        if form.is_valid():
             newStyle = form.save(commit=False)
             newStyle.bagSize = bagSize
             newStyle.save()
-            form.save_m2m()
             return HttpResponseRedirect(pk)
 
-        
-
-    ctx = {'form': form, 'style':entry, 'miscPackaging': packagingItems}
+    ctx = {'form': form, 'style':entry, 'miscPackaging': packagingItems, 'mp_all': miscPackagingQuery}
     return render(request, 'charge/stylesForm.html', ctx)
+
+
 
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
 def deleteStyle(request,pk):
     entry = Styles.objects.get(id=pk)
     entry.delete()
     return redirect('styles')
-
-
-
 
 #-------------Box Difference Functions-----------------
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
@@ -374,3 +386,12 @@ def getWeights(params):
         i+=1
 
     return JsonResponse(weight)
+
+@csrf_exempt
+def updateStyleRelation(params):
+    mp = params.POST['miscPackaging_v']
+    pk = params.POST['styleid']
+
+    entry = Styles.objects.get(id=pk)
+    entry.miscPackaging.add(mp)
+    return redirect(f'/data/updateStyle/{pk}')

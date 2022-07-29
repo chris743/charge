@@ -1,7 +1,7 @@
 from unicodedata import name
 from django.urls import path
 
-from . import views, getweights, reporting
+from . import views, reporting
 from .models import *
 
 
@@ -62,5 +62,7 @@ urlpatterns = [
 
 
     path('getweights/', views.getWeights, name="getweights"),
+
+    path('updateStyleRelation/', views.updateStyleRelation, name='updateStyleRelation'),
 
 ]

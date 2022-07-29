@@ -55,6 +55,7 @@ class StylesForm(ModelForm):
             'miscPackaging': forms.Select(attrs={'class': 'form-control'})
             
         }
+        
 
 class CommodityForm(ModelForm):
     class Meta:

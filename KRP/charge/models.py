@@ -114,7 +114,7 @@ class Styles(models.Model):
     countSize = models.CharField(max_length=200, default="NULL")
     domesticSalesCost = models.IntegerField(null=False, default=0)
     chileanSalesCost = models.FloatField(null=False, default=0)
-    miscPackaging = models.ManyToManyField('MiscPackaging', related_name='miscPackaging_rel')
+    miscPackaging = models.ManyToManyField('MiscPackaging', related_name='miscPackaging_rel', blank=True)
 
     def round_to_value(self, number):
         number = round(number, 2)
@@ -148,7 +148,6 @@ class Styles(models.Model):
         palletCost = MiscPackaging.objects.get(description="Pallet").cost
         if self.twb_flag == False or self.twb_flag == "NULL":
             result = self.commodity.pallets * self.conversionDomestic
-            print(result)
             return self.round_to_value(result)
         else:
             return self.round_to_value(palletCost)
@@ -170,8 +169,6 @@ class Styles(models.Model):
             totalCost = ((labor * (1 + costObject.wastePercentage)) + labor)
        
             value = self.count * (totalCost + self.commodity.profitPerBag)
-            print(totalCost)
-            print("total")
             value = self.round_to_value(value)
             return value
     
