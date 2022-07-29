@@ -1,4 +1,5 @@
 import json
+from django.db import DEFAULT_DB_ALIAS
 from django.views.generic import ListView
 from unicodedata import name
 from django.contrib import messages
@@ -9,6 +10,7 @@ from .forms import MiscPackaging, PackagingForm, BagCostForm,StylesForm, BagType
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import get_template
+from django.contrib.admin.utils import NestedObjects
 
 # Create your views here.
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
@@ -41,6 +43,8 @@ def deleteBagType(request, pk):
 def updateBagType(request, pk):
     entry = BagType.objects.get(id=pk)
     form = BagTypeForm(instance=entry)
+
+    
 
     if request.method == 'POST':
         form = BagTypeForm(request.POST, instance=entry)
@@ -177,7 +181,6 @@ def styles(request):
         form = StylesForm(request.POST)
         bagSize = float(request.POST['size'])
         if form.is_valid():
-            print("valid")
             newStyle = form.save(commit=False)
             newStyle.bagSize = bagSize
             newStyle.save()
@@ -194,6 +197,9 @@ def updateStyle(request, pk):
     entry = Styles.objects.get(id=pk)
     form = StylesForm(instance=entry)
 
+    packagingItems = entry.miscPackaging.all()
+    
+
     if request.method == 'POST':
         bagSize = float(request.POST['size'])
         form = StylesForm(request.POST, instance=entry)
@@ -201,11 +207,12 @@ def updateStyle(request, pk):
             newStyle = form.save(commit=False)
             newStyle.bagSize = bagSize
             newStyle.save()
+            form.save_m2m()
             return HttpResponseRedirect(pk)
 
         
 
-    ctx = {'form': form, 'style':entry}
+    ctx = {'form': form, 'style':entry, 'miscPackaging': packagingItems}
     return render(request, 'charge/stylesForm.html', ctx)
 
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
@@ -366,5 +373,4 @@ def getWeights(params):
         weight[i] = bag.bagWeight
         i+=1
 
-    print(weight)
     return JsonResponse(weight)

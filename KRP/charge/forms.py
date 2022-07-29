@@ -52,9 +52,8 @@ class StylesForm(ModelForm):
             'bagSize': forms.TextInput(attrs={'class': 'form-control'}),
             'weight': forms.TextInput(attrs={'class': 'form-control'}),
             'flag': forms.TextInput(attrs={'class': 'form-control'}),
-            'miscPackaging': forms.SelectMultiple(attrs={'class': 'form-control'})
-            #'miscPackaging': FilteredSelectMultiple(MiscPackaging, False)
-            #'countSize': forms.TextInput(attrs={'class': 'form-control'}),
+            'miscPackaging': forms.Select(attrs={'class': 'form-control'})
+            
         }
 
 class CommodityForm(ModelForm):

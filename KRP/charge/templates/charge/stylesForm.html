@@ -62,7 +62,6 @@
                     </p>
                 </div>
 
-                {{form.miscPackaging}}
             </div>
 
             <div class="row">
@@ -217,8 +216,37 @@
         </div>
     </div>
 
+    
+
 </div>
-</div>  
+</div>
+
+<table class="table table-striped">
+<form action="" method="POST">
+    {% csrf_token %}
+    <tr>
+        <th> Description</th>
+        <th> Box Difference </th>
+        <th> Box Charge Chile </th>
+        <th></th>
+    </tr>
+    {% for i in miscPackaging %}
+        <tr>
+            <td>{{i.description}}</td>
+            <td>{{i.cost}}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td>{{form.miscPackaging}}</td>
+        <td>0</td>
+        <td>0</td>
+        <td><a href="#" class="btn btn-primary btn-sm">Save</a>
+        <a href="#" class="btn btn-danger btn-sm">Delete</a></td>
+   
+    </tr>
+</form>
+</table> 
+
 </div>
 <style>
     .form-control:read-only{
