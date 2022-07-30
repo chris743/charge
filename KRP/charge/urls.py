@@ -35,6 +35,7 @@ urlpatterns = [
     path('updateStyle/<pk>', views.updateStyle, name="update-style"),
     path('deleteStyle/<pk>', views.deleteStyle, name="delete-style"),
     path('report-styles/', reporting.RenderPDF, {'model': Styles, 'template_name': "charge/pdfs/stylesReport.html"}, name="styles-report"),
+    path('deleteRelatedPackageFromStyle/<style>/<pk>/', views.delete_related, name="delete-related"),
 
 
     path('boxDiff/', views.boxDiff, name="boxDiff"),

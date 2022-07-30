@@ -200,21 +200,29 @@ def updateStyle(request, pk):
     form = StylesForm(instance=entry)
 
     packagingItems = entry.miscPackaging.all()
-    miscPackagingQuery = MiscPackaging.objects.all()
 
-    boxDiffs = BoxDifference.objects.filter(name)
+    boxDiffs = BoxDifference.objects.all()
+
+    mp_data = {'id':[], 'name':[]}
+    mp = pd.DataFrame(mp_data)
+
+    for i in boxDiffs:
+        mp.loc[len(mp.index)] = [i.name.id, i.name]
+    print(mp)
+
+    data1 = {
+            'name':[],
+            'cost':[],
+            'boxDiff':[]
+        }
+    
+    df = pd.DataFrame(data1)
 
     for p in packagingItems:
-        mpData = {
-            'Description':[p.description],
-            'Cost':[p.cost],
-            'BoxDifference':[]
-        }
-
-
-
-
-
+        diff = boxDiffs.get(name=p.id).boxDiff
+        df.loc[len(df.index)]=([p.description, p.cost, diff])
+        
+    print(df)
 
     if request.method == 'POST':
         bagSize = float(request.POST['size'])
@@ -225,7 +233,7 @@ def updateStyle(request, pk):
             newStyle.save()
             return HttpResponseRedirect(pk)
 
-    ctx = {'form': form, 'style':entry, 'miscPackaging': packagingItems, 'mp_all': miscPackagingQuery}
+    ctx = {'form': form, 'style':entry, 'miscPackaging': df, 'mp_all': mp}
     return render(request, 'charge/stylesForm.html', ctx)
 
 
@@ -235,6 +243,18 @@ def deleteStyle(request,pk):
     entry = Styles.objects.get(id=pk)
     entry.delete()
     return redirect('styles')
+
+def delete_related(request, style, pk):
+        entry = Styles.objects.get(id=style)
+        mp = MiscPackaging.objects.get(description=pk).id
+        packagingItem = entry.miscPackaging.get(id=mp)
+
+        entry.miscPackaging.remove(packagingItem)
+        return redirect(f'/data/updateStyle/{style}')
+        
+
+
+
 
 #-------------Box Difference Functions-----------------
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
