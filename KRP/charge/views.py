@@ -1,19 +1,15 @@
-import json
-from django.db import DEFAULT_DB_ALIAS
-from django.views.generic import ListView
 from unicodedata import name
 from django.contrib import messages
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, FileResponse
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from .models import BagType, BagCost, BoxDifference, LaborCost, PackagingCosts, Commodities, Styles, Packaging, MiscPackaging
 from .forms import MiscPackaging, PackagingForm, BagCostForm,StylesForm, BagTypeForm, CommodityForm, BoxDifferenceForm, PackagingCostForm, LaborCostForm, MiscPackagingForm
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import user_passes_test
 from django.views.decorators.csrf import csrf_exempt
-from django.template.loader import get_template
-from django.contrib.admin.utils import NestedObjects
+import pandas as pd
 
 # Create your views here.
-@user_passes_test(lambda u: u.is_staff, login_url="denied")
+@user_passes_test(lambda u: u.is_staff, login_url="login")
 def home(request):
     return render(request, 'charge/home.html')
 
@@ -192,8 +188,6 @@ def styles(request):
     ctx = {'styles': stylesQuery, 'form': form}
     return render(request, 'charge/styles.html', ctx)
 
-import pandas as pd
-
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
 def updateStyle(request, pk):
     entry = Styles.objects.get(id=pk)
@@ -208,9 +202,9 @@ def updateStyle(request, pk):
 
     for i in boxDiffs:
         mp.loc[len(mp.index)] = [i.name.id, i.name]
-    print(mp)
 
     data1 = {
+            'mp_id':[],
             'name':[],
             'cost':[],
             'boxDiff':[]
@@ -220,10 +214,8 @@ def updateStyle(request, pk):
 
     for p in packagingItems:
         diff = boxDiffs.get(name=p.id).boxDiff
-        df.loc[len(df.index)]=([p.description, p.cost, diff])
+        df.loc[len(df.index)]=([p.id, p.description, p.cost, diff])
         
-    print(df)
-
     if request.method == 'POST':
         bagSize = float(request.POST['size'])
         form = StylesForm(request.POST, instance=entry)
@@ -246,8 +238,8 @@ def deleteStyle(request,pk):
 
 def delete_related(request, style, pk):
         entry = Styles.objects.get(id=style)
-        mp = MiscPackaging.objects.get(description=pk).id
-        packagingItem = entry.miscPackaging.get(id=mp)
+        #mp = MiscPackaging.objects.get(description=pk).id
+        packagingItem = entry.miscPackaging.get(id=pk)
 
         entry.miscPackaging.remove(packagingItem)
         return redirect(f'/data/updateStyle/{style}')

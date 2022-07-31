@@ -206,7 +206,7 @@
             <td>{{row.name}}</td>
             <td>{{row.cost}}</td>
             <td>{{row.boxDiff}}</td>
-            <td><a href="{% url 'delete-related' style.id row.name %}" class="btn btn-danger btn-sm">Delete</a></td>
+            <td><a href="{% url 'delete-related' style.id row.mp_id %}" class="btn btn-danger btn-sm">Delete</a></td>
 
         </tr>
     {% endfor %}
