@@ -17,7 +17,7 @@ def home(request):
 @user_passes_test(lambda u: u.is_staff, login_url="denied")
 def bagType(request):
     form = BagTypeForm()
-    bagQuery = BagType.objects.all()
+    bagQuery = BagType.objects.all().order_by('bagType').values()
 
     if request.method == 'POST':
         form = BagTypeForm(request.POST)
